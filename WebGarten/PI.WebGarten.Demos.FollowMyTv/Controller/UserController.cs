@@ -1,7 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Net;
+using PI.WebGarten.Demos.FollowMyTv.Model;
+using PI.WebGarten.Demos.FollowMyTv.View;
+using PI.WebGarten.MethodBasedCommands;
 
 namespace PI.WebGarten.Demos.FollowMyTv.Controller
 {
@@ -10,38 +12,27 @@ namespace PI.WebGarten.Demos.FollowMyTv.Controller
         private readonly IUserRepository _repo;
         public UserController()
         {
-            
+            _repo = UserRepositoryLocator.Instance;
         }
-    }
 
-    interface IUserRepository
-    {
-        IEnumerable<User> GetAll();
-        User GetById( string username );
-        void Add( User user );
-    }
-
-    class UserMemoryRepository : IUserRepository
-    {
-        private readonly IDictionary<int, User> _repo = new Dictionary<int, User>();
-        private int _cid = 0;
-
-
-        public IEnumerable<User> GetAll()
+        [HttpCmd(HttpMethod.Get, "/users")]
+        public HttpResponse Get()
         {
-
-            throw new NotImplementedException();
+            return new HttpResponse(HttpStatusCode.OK, new UsersView(_repo.GetAll()));
         }
 
-        public User GetById(string username)
+        [HttpCmd(HttpMethod.Post, "/users")]
+        public HttpResponse Post( IEnumerable<KeyValuePair<string, string>> content )
         {
-            throw new NotImplementedException();
+            var username = content.Where(p => p.Equals("username")).Select(p => p.Value).FirstOrDefault();
+            var password = content.Where( p => p.Equals( "password" ) ).Select( p => p.Value ).FirstOrDefault();
+            if( _repo.GetById(username) != null )
+            {
+                return new HttpResponse(HttpStatusCode.BadRequest);
+            }
+            var user = new User {Name = username, Password = password};
+            _repo.Add(user);
+            return new HttpResponse( HttpStatusCode.SeeOther ).WithHeader( "Location", ResolveUri.ForUsers() );
         }
-
-        public void Add(User user)
-        {
-            
-        }
-
     }
 }
