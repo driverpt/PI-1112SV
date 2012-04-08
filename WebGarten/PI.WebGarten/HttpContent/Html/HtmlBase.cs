@@ -23,9 +23,14 @@ namespace PI.WebGarten.HttpContent.Html
         }
         public static IWritable InputText(String name)
         {
-            return new HtmlElem("input")
-                .WithAttr("type", "text")
-                .WithAttr("name", name);
+            return InputText(name, false);
+        }
+
+        public static IWritable InputText(String name, bool encoded)
+        {
+            return new HtmlElem( "input" )
+                .WithAttr( "type", (encoded) ? "password" : "text" )
+                .WithAttr( "name", name );            
         }
 
         public static IWritable InputSubmit(String value)
