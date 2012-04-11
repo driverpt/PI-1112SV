@@ -45,14 +45,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AuthenticationFilter.cs" />
-    <Compile Include="Controller\IUserRepository.cs" />
-    <Compile Include="Controller\UserController.cs" />
-    <Compile Include="Controller\UserMemoryRepository.cs" />
-    <Compile Include="Controller\UserRepositoryLocator.cs" />
-    <Compile Include="Model\Episode.cs" />
+    <Compile Include="AuthorizationFilter.cs" />
+    <Compile Include="BaseFilter.cs" />
     <Compile Include="Model\Role.cs" />
+    <Compile Include="Permission.cs" />
+    <Compile Include="Repository\IRepository.cs" />
+    <Compile Include="Controller\UserController.cs" />
+    <Compile Include="Repository\BaseMemoryRepository.cs" />
+    <Compile Include="RepositoryLocator.cs" />
+    <Compile Include="Model\Episode.cs" />
     <Compile Include="Model\Season.cs" />
-    <Compile Include="Model\Series.cs" />
+    <Compile Include="Model\Show.cs" />
     <Compile Include="Model\User.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
