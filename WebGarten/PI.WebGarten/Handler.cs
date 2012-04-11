@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Net;
-    using PI.WebGarten.Pipeline;
+    using Pipeline;
 
     public partial class Handler : IHttpFilter
     {
@@ -16,7 +16,7 @@
         public Handler(string baseAddress)
         {
             _baseAddress = baseAddress;
-            this._pipeline = new HttpFilterPipeline(this);
+            _pipeline = new HttpFilterPipeline(this);
         }
 
         public void Add(params ICommand[] cmds)
@@ -41,7 +41,7 @@
         {
             get
             {
-                return this._pipeline;
+                return _pipeline;
             }
         }
 
@@ -52,7 +52,7 @@
             
             try
             {
-                var resp = this.Pipeline.Execute(new RequestInfo(ctx));
+                var resp = Pipeline.Execute(new RequestInfo(ctx));
                 resp.Send(ctx);
             }
             catch (Exception e)

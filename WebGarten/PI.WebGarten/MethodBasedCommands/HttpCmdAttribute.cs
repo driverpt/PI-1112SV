@@ -6,10 +6,12 @@ namespace PI.WebGarten.MethodBasedCommands
     {
         public UriTemplate UriTemplate { get; private set; }
         public string HttpMethod { get; private set; }
-        public HttpCmdAttribute(string method, string template)
+        public string MinRole { get; private set; }
+        public HttpCmdAttribute( string method, string template, string role = null )
         {
-            UriTemplate = new UriTemplate(template);
+            UriTemplate = new UriTemplate( template );
             HttpMethod = method;
+            MinRole = role;
         }
     }
 }

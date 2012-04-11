@@ -18,6 +18,11 @@ namespace PI.WebGarten
 
         private static readonly MethodInfo _AddInternalMethodInfo;
 
+        public int Status { get { return _status; } }
+
+        private CookieCollection _cookies;
+
+
         static HttpResponse()
         {
             _AddInternalMethodInfo = typeof(WebHeaderCollection).GetMethod("AddInternal", BindingFlags.Instance | BindingFlags.NonPublic);
@@ -34,9 +39,21 @@ namespace PI.WebGarten
             return this;
         }
 
+        public HttpResponse WithCookie(Cookie cookie)
+        {
+            EnsureCookies();
+            _cookies.Add(cookie);
+            return this;
+        }
+
         private void EnsureHeaders()
         {
-            if (_headers == null) _headers = new Dictionary<string, string>();
+            if ( _headers == null ) { _headers = new Dictionary<string, string>(); }
+        }
+
+        private void EnsureCookies()
+        {
+            if (_cookies == null) { _cookies = new CookieCollection(); }
         }
 
         public HttpResponse(int status)
@@ -59,8 +76,18 @@ namespace PI.WebGarten
             var resp = c.Response;
             resp.StatusCode = _status;
             SetHeaders(resp);
+            SetCookies(resp);
             SendContent(resp);
             resp.Close();
+        }
+
+        private void SetCookies(HttpListenerResponse resp)
+        {
+            if ( _cookies == null ) { return; }
+            foreach (Cookie cookie in _cookies)
+            {
+                resp.AppendCookie(cookie);
+            }
         }
 
         private void SetHeaders(HttpListenerResponse resp)

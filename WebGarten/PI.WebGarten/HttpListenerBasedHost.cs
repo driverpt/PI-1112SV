@@ -3,7 +3,7 @@ using System.Net;
 
 namespace PI.WebGarten
 {
-    using PI.WebGarten.Pipeline;
+    using Pipeline;
 
     public class HttpListenerBasedHost
     {

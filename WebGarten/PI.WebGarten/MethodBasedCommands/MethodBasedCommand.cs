@@ -28,6 +28,11 @@ namespace PI.WebGarten.MethodBasedCommands
             get { return _attr.HttpMethod; }
         }
 
+        public string Role
+        {
+            get { return _attr.Role; }
+        }
+
         public HttpResponse Execute(RequestInfo req)
         {
             var o = Activator.CreateInstance(_mi.DeclaringType);
