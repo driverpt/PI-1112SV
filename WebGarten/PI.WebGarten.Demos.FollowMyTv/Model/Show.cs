@@ -2,7 +2,7 @@
 
 namespace PI.WebGarten.Demos.FollowMyTv.Model
 {
-    class Series
+    public class Show
     {
         public string Name { get; set; }
         public string Description { get; set; }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace PI.WebGarten.Demos.FollowMyTv.Model
 {
-    class Season
+    public class Season
     {
         public string Name { get; set; }
         public DateTime Debut { get; set; }

@@ -1,6 +1,6 @@
 namespace PI.WebGarten.Demos.FollowMyTv.Model
 {
-    class Episode
+    public class Episode
     {
         public string Title { get; set; }
         public long Duration { get; set; }
