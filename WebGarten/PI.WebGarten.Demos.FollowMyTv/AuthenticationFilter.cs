@@ -1,81 +1,103 @@
-﻿using PI.WebGarten.Demos.FollowMyTv.Controller;
+﻿using System.Net;
 using PI.WebGarten.Demos.FollowMyTv.Model;
 
 namespace PI.WebGarten.Demos.FollowMyTv
 {
     using System;
-    using System.Security.Principal;
     using System.Text;
 
     using WebGarten;
     using HttpContent.Html;
-    using Pipeline;
 
-    public class AuthenticationFilter : IHttpFilter
+    public class AuthenticationFilter : BaseFilter
     {
-        private readonly string _name;
+        private static readonly string URI_LOGIN  = "/login";
+        private static readonly string URI_LOGOUT = "/logout";
+        private static readonly string COOKIE_AUTH_NAME = "PI_AUTH";
 
-        private IHttpFilter _nextFilter;
-
-        public AuthenticationFilter(string name)
-        {
-            _name = name;
-        }
+        public AuthenticationFilter(string name) : base(name) {}
 
         #region Implementation of IHttpFilter
 
-        public string Name
-        {
-            get
-            {
-                return _name;
-            }
-        }
-
-        public void SetNextFilter(IHttpFilter nextFilter)
-        {
-            _nextFilter = nextFilter;
-        }
-
-        public HttpResponse Process(RequestInfo requestInfo)
+        public override HttpResponse Process( RequestInfo requestInfo )
         {
             var ctx = requestInfo.Context;
-            if (ctx.Request.Url.AbsolutePath.Contains("private"))
+
+            if ( ctx.Request.Url.AbsolutePath.Equals( URI_LOGOUT ) )
+            {
+                var logoutResp = new HttpResponse( HttpStatusCode.Found )
+                    .WithHeader("Location", "/");
+                Cookie logoutCookie = ctx.Request.Cookies[COOKIE_AUTH_NAME];
+                if( logoutCookie != null )
+                {
+                    logoutResp.WithCookie( new Cookie( COOKIE_AUTH_NAME, "", "/" ) { Expired = true } );
+                }
+                return logoutResp;
+            }
+
+            if( ctx.Request.Url.AbsolutePath.Equals(URI_LOGIN) )
             {
                 string auth = ctx.Request.Headers["Authorization"];
-                if (auth == null)
+                if( auth == null )
                 {
-                    var resp = new HttpResponse(401, new TextContent("Not Authorized"));
-
-                    resp.WithHeader("WWW-Authenticate", "Basic realm=\"Private Area\"");
-                    return resp;
-
+                    return UnauthorizedResponseWithAuth();
                 }
 
-                auth = auth.Replace("Basic ", "");
-                string userPassDecoded = Encoding.UTF8.GetString(Convert.FromBase64String(auth));
-                string []userPasswd = userPassDecoded.Split(':');
+                auth = auth.Replace( "Basic ", "" );
+                string userPassDecoded = Encoding.UTF8.GetString( Convert.FromBase64String( auth ) );
+                string[] userPasswd = userPassDecoded.Split( ':' );
                 string username = userPasswd[0];
                 string passwd = userPasswd[1];
 
-                if ( Authenticate( username, passwd ) )
+                User user = RepositoryLocator.Users.GetById(username);
+                // TODO : Create Method to compare Password
+                if( user == null || !user.Password.Equals(passwd) )
                 {
-                    var userIdentify = new GenericIdentity(username);
-                    requestInfo.User = new GenericPrincipal(userIdentify, null);
+                    return UnauthorizedResponseWithAuth();
                 }
 
-                Console.WriteLine("Authentication: {0} - {1}", auth, userPassDecoded);
+                var authenticatedResponse = new HttpResponse( HttpStatusCode.Found )
+                    .WithCookie(new Cookie(COOKIE_AUTH_NAME, username,"/") )
+                    .WithHeader("Location", ctx.Request.UrlReferrer.AbsoluteUri);
+
+                return authenticatedResponse;
+            }
+            
+            Cookie cookie = ctx.Request.Cookies[COOKIE_AUTH_NAME];
+
+            if( cookie != null )
+            {
+                User user = RepositoryLocator.Users.GetById(cookie.Value);
+                if( user != null )
+                {
+                    requestInfo.User = user;
+                    var response = _nextFilter.Process( requestInfo );
+                }
+                else
+                {
+                    var response = _nextFilter.Process( requestInfo );
+                    response.WithCookie( new Cookie( COOKIE_AUTH_NAME, "", "/" ) { Expired = true } );
+                }   
+            }
+
+            var nextFilterResp = _nextFilter.Process(requestInfo);
+
+            if( nextFilterResp.Status == (int) HttpStatusCode.Unauthorized )
+            {
+                return new HttpResponse( HttpStatusCode.Found ).WithHeader( "Location", URI_LOGIN );
             }
 
             return _nextFilter.Process(requestInfo);
         }
 
-        public bool Authenticate(string username, string password)
-        {
-            User user = UserRepositoryLocator.Instance.GetById( username );
-            return user.Password == password;
-        }
-
         #endregion
+
+        public HttpResponse UnauthorizedResponseWithAuth()
+        {
+            var unauthorizedResp = new HttpResponse(401, new TextContent("Not Authorized"));
+
+            unauthorizedResp.WithHeader("WWW-Authenticate", "Basic realm=\"Private Area\"");
+            return unauthorizedResp;
+        }
     }
 }

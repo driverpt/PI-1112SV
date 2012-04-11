@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Net;
 using PI.WebGarten.Demos.FollowMyTv.Model;
+using PI.WebGarten.Demos.FollowMyTv.Repository;
 using PI.WebGarten.Demos.FollowMyTv.View;
 using PI.WebGarten.MethodBasedCommands;
 
@@ -9,10 +10,10 @@ namespace PI.WebGarten.Demos.FollowMyTv.Controller
 {
     class UserController
     {
-        private readonly IUserRepository _repo;
+        private readonly IRepository<User, string> _repo;
         public UserController()
         {
-            _repo = UserRepositoryLocator.Instance;
+            _repo = RepositoryLocator.Users;
         }
 
         [HttpCmd(HttpMethod.Get, "/users")]
@@ -30,8 +31,7 @@ namespace PI.WebGarten.Demos.FollowMyTv.Controller
             {
                 return new HttpResponse(HttpStatusCode.BadRequest);
             }
-            var user = new User {Name = username, Password = password};
-            _repo.Add(user);
+            
             return new HttpResponse( HttpStatusCode.SeeOther ).WithHeader( "Location", ResolveUri.ForUsers() );
         }
     }
