@@ -1,19 +1,16 @@
 ﻿using System.Net;
 using PI.WebGarten.Demos.FollowMyTv.Model;
+using System;
+using System.Text;
+using PI.WebGarten.HttpContent.Html;
 
-namespace PI.WebGarten.Demos.FollowMyTv
+namespace PI.WebGarten.Demos.FollowMyTv.Filters
 {
-    using System;
-    using System.Text;
-
-    using WebGarten;
-    using HttpContent.Html;
-
     public class AuthenticationFilter : BaseFilter
     {
-        private static readonly string URI_LOGIN  = "/login";
-        private static readonly string URI_LOGOUT = "/logout";
-        private static readonly string COOKIE_AUTH_NAME = "PI_AUTH";
+        private const string URI_LOGIN = "/login";
+        private const string URI_LOGOUT = "/logout";
+        private const string COOKIE_AUTH_NAME = "PI_AUTH";
 
         public AuthenticationFilter(string name) : base(name) {}
 
@@ -22,7 +19,7 @@ namespace PI.WebGarten.Demos.FollowMyTv
         public override HttpResponse Process( RequestInfo requestInfo )
         {
             var ctx = requestInfo.Context;
-
+            
             if ( ctx.Request.Url.AbsolutePath.Equals( URI_LOGOUT ) )
             {
                 var logoutResp = new HttpResponse( HttpStatusCode.Found )

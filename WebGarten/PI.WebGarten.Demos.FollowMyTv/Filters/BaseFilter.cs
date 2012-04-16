@@ -1,6 +1,6 @@
 using PI.WebGarten.Pipeline;
 
-namespace PI.WebGarten.Demos.FollowMyTv
+namespace PI.WebGarten.Demos.FollowMyTv.Filters
 {
     public abstract class BaseFilter : IHttpFilter
     {

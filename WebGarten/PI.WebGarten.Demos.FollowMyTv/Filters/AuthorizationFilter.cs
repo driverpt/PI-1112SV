@@ -1,4 +1,4 @@
-namespace PI.WebGarten.Demos.FollowMyTv
+namespace PI.WebGarten.Demos.FollowMyTv.Filters
 {
     public class AuthorizationFilter : BaseFilter
     {
