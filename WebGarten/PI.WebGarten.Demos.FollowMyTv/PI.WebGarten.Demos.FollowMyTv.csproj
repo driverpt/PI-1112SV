@@ -44,9 +44,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AuthenticationFilter.cs" />
-    <Compile Include="AuthorizationFilter.cs" />
-    <Compile Include="BaseFilter.cs" />
+    <Compile Include="Filters\AuthenticationFilter.cs" />
+    <Compile Include="Filters\AuthorizationFilter.cs" />
+    <Compile Include="Filters\BaseFilter.cs" />
     <Compile Include="Model\Role.cs" />
     <Compile Include="Permission.cs" />
     <Compile Include="Repository\IRepository.cs" />
