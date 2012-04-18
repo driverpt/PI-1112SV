@@ -9,7 +9,7 @@ namespace PI.WebGarten.Demos.FollowMyTv
             return "/";
         }
 
-        public static string ForUser(User user)
+        public static string For(User user)
         {
             return string.Format("/user/{0}", user.Identity.Name/*user.Id*/);
         }
