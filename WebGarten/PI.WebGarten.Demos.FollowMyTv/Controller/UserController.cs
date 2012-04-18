@@ -5,10 +5,11 @@ using PI.WebGarten.Demos.FollowMyTv.Model;
 using PI.WebGarten.Demos.FollowMyTv.Repository;
 using PI.WebGarten.Demos.FollowMyTv.View;
 using PI.WebGarten.MethodBasedCommands;
+using PI.WebGarten.Mvc;
 
 namespace PI.WebGarten.Demos.FollowMyTv.Controller
 {
-    class UserController
+    public class UserController : BaseController
     {
         private readonly IRepository<User, string> _repo;
         public UserController()
