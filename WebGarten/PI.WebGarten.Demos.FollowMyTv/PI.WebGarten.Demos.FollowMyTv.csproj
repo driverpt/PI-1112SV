@@ -66,6 +66,7 @@
     <Compile Include="RequestConsoleLogFilter.cs" />
     <Compile Include="ResolveUri.cs" />
     <Compile Include="UserRepositoryLocator.cs" />
+    <Compile Include="View\ProposalView.cs" />
     <Compile Include="View\UsersView.cs" />
   </ItemGroup>
   <ItemGroup>
