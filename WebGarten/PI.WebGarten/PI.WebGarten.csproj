@@ -66,6 +66,7 @@
     <Compile Include="MethodBasedCommands\RequestParameterBinder.cs" />
     <Compile Include="MethodBasedCommands\MethodBasedCommandFactory.cs" />
     <Compile Include="MethodBasedCommands\UriTemplateParameterBinder.cs" />
+    <Compile Include="Mvc\BaseController.cs" />
     <Compile Include="Pipeline\HttpFilterPipeline.HttpFilterCollection.cs" />
     <Compile Include="Pipeline\HttpFilterPipeline.cs" />
     <Compile Include="Pipeline\IHttpFilter.cs" />

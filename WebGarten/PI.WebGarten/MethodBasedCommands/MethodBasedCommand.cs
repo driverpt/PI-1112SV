@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using PI.WebGarten.Mvc;
 
 namespace PI.WebGarten.MethodBasedCommands
 {
@@ -31,6 +32,13 @@ namespace PI.WebGarten.MethodBasedCommands
         public HttpResponse Execute(RequestInfo req)
         {
             var o = Activator.CreateInstance(_mi.DeclaringType);
+            var controller = o as BaseController;
+
+            if( controller != null )
+            {
+                controller.RequestInfo = req;
+            }
+
             var prms = new object[_binders.Length];
             for(var i = 0 ; i<_binders.Length ; ++i)
             {

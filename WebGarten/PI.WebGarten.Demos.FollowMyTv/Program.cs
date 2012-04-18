@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using PI.WebGarten.Demos.First;
 using PI.WebGarten.Demos.FollowMyTv.Controller;
 using PI.WebGarten.Demos.FollowMyTv.Filters;
 using PI.WebGarten.Demos.FollowMyTv.Model;

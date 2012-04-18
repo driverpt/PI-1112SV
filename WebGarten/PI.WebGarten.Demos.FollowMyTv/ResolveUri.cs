@@ -19,14 +19,19 @@ namespace PI.WebGarten.Demos.FollowMyTv
             return "/users";
         }
 
-        public static string ForShows()
+        public static string For(Proposal proposal)
         {
-            return "/shows";
+            return string.Format("/proposals/{0}", proposal.Id);
         }
 
         public static string ForShow(string id)
         {
             return "/shows/"+id;
+        }
+
+        public static string ForShows()
+        {
+            return "/shows";
         }
     }
 }
