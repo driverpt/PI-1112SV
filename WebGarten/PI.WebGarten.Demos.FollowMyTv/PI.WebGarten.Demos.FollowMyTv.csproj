@@ -44,6 +44,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controller\HomeController.cs" />
+    <Compile Include="Controller\ProposalController.cs" />
+    <Compile Include="Controller\ShowController.cs" />
     <Compile Include="Filters\AuthenticationFilter.cs" />
     <Compile Include="Filters\AuthorizationFilter.cs" />
     <Compile Include="Filters\BaseFilter.cs" />
@@ -60,6 +63,8 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResolveUri.cs" />
+    <Compile Include="View\HomeView.cs" />
+    <Compile Include="View\ShowsView.cs" />
     <Compile Include="View\UsersView.cs" />
   </ItemGroup>
   <ItemGroup>
