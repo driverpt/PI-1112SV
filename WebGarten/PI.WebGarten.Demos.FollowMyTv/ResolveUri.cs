@@ -4,14 +4,29 @@ namespace PI.WebGarten.Demos.FollowMyTv
 {
     static class ResolveUri
     {
-        public static string For(User user)
+        public static string ForHome()
         {
-            return string.Format("/user/{0}", user.Id);
+            return "/";
+        }
+
+        public static string ForUser(User user)
+        {
+            return string.Format("/user/{0}", user.Identity.Name/*user.Id*/);
         }
 
         public static string ForUsers()
         {
             return "/users";
+        }
+
+        public static string ForShows()
+        {
+            return "/shows";
+        }
+
+        public static string ForShow(string id)
+        {
+            return "/shows/"+id;
         }
     }
 }

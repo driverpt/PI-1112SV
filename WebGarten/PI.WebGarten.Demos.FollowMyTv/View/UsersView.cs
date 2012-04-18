@@ -9,15 +9,15 @@ namespace PI.WebGarten.Demos.FollowMyTv.View
     {
         public UsersView( IEnumerable<User> users ) :
             base( "Users",
-             H1( Text( "User List" ) )
-           , Ul( users.Select( user => Li( A( ResolveUri.For( user ), user.Name ) ) ).ToArray() )
+            A(ResolveUri.ForHome(), "Home")
+           , H1( Text( "User List" ) )
+           , Ul( users.Select( user => Li( A( ResolveUri.ForUser( user ), user.Identity.Name/*user.Name*/) ) ).ToArray() )
            , H2( Text( "Create a New User" ) )
            , Form("post", "/users", Label("username", "Username"), InputText("username")
                                   , Label("password", "Password"), InputText("password", true)
                                   , Label("submit", "Submit" )   , InputSubmit("Submit")
             )
          )
-        {
-        }
+        {}
     }
 }
