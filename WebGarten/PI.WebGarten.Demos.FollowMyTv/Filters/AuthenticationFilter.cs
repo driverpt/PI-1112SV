@@ -2,6 +2,7 @@
 using PI.WebGarten.Demos.FollowMyTv.Model;
 using System;
 using System.Text;
+using PI.WebGarten.Demos.FollowMyTv.Repository;
 using PI.WebGarten.HttpContent.Html;
 
 namespace PI.WebGarten.Demos.FollowMyTv.Filters
@@ -11,6 +12,8 @@ namespace PI.WebGarten.Demos.FollowMyTv.Filters
         private const string URI_LOGIN = "/login";
         private const string URI_LOGOUT = "/logout";
         private const string COOKIE_AUTH_NAME = "PI_AUTH";
+
+        private IUserRepository UserRepo = UserRepositoryLocator.Instance;
 
         public AuthenticationFilter(string name) : base(name) {}
 
@@ -46,16 +49,15 @@ namespace PI.WebGarten.Demos.FollowMyTv.Filters
                 string username = userPasswd[0];
                 string passwd = userPasswd[1];
 
-                User user = RepositoryLocator.Users.GetById(username);
-                // TODO : Create Method to compare Password
-                if( user == null || !user.Password.Equals(passwd) )
+                User user = UserRepo.Authenticate(username, passwd);
+
+                if( user == null )
                 {
                     return UnauthorizedResponseWithAuth();
                 }
-
                 var authenticatedResponse = new HttpResponse( HttpStatusCode.Found )
                     .WithCookie(new Cookie(COOKIE_AUTH_NAME, username,"/") )
-                    .WithHeader("Location", ctx.Request.UrlReferrer.AbsoluteUri);
+                    .WithHeader("Location", ( ctx.Request.UrlReferrer == null ) ? "/" : ctx.Request.UrlReferrer.AbsolutePath );
 
                 return authenticatedResponse;
             }
