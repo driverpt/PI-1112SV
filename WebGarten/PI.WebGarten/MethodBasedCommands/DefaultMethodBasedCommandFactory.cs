@@ -16,7 +16,7 @@ namespace PI.WebGarten.MethodBasedCommands
 
         public static ICommand[] GetCommandsFor(params Type[] types)
         {
-            foreach (Type type in types.Where(type => !type.IsAssignableFrom(typeof(BaseController))))
+            foreach (Type type in types.Where(type => !typeof(BaseController).IsAssignableFrom(type)))
             {
                 throw new ArgumentException(String.Format("Type {0} must extend the {1} class", type.FullName, typeof(BaseController).FullName));
             }
