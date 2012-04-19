@@ -13,7 +13,7 @@ namespace PI.WebGarten.Demos.FollowMyTv.Filters
         private const string URI_LOGOUT = "/logout";
         private const string COOKIE_AUTH_NAME = "PI_AUTH";
 
-        private IUserRepository UserRepo = UserRepositoryLocator.Instance;
+        private readonly IUserRepository UserRepo = UserRepositoryLocator.Instance;
 
         public AuthenticationFilter(string name) : base(name) {}
 
@@ -22,8 +22,40 @@ namespace PI.WebGarten.Demos.FollowMyTv.Filters
         public override HttpResponse Process( RequestInfo requestInfo )
         {
             var ctx = requestInfo.Context;
+
+            Cookie authenticationCookie = ctx.Request.Cookies[COOKIE_AUTH_NAME];
             
-            if ( ctx.Request.Url.AbsolutePath.Equals( URI_LOGOUT ) )
+            if( authenticationCookie == null )
+            {
+                var authentication = ctx.Request.Headers["Authorization"];
+                if ( authentication != null )
+                {
+                    authentication = authentication.Replace("Basic ", "");
+
+                    string userPassDecoded = Encoding.UTF8.GetString(Convert.FromBase64String(authentication));
+                    string[] userPasswd = userPassDecoded.Split(':');
+                    string username = userPasswd[0];
+                    string passwd = userPasswd[1];
+
+                    User user = null;
+                    if (UserRepo.TryAuthenticate(username, passwd, out user))
+                    {
+                        ctx.Request.Cookies.Add(new Cookie(COOKIE_AUTH_NAME, user.Identity.Name, "/"));
+                        requestInfo.User = user;
+                        return _nextFilter.Process(requestInfo);
+                    }
+                }
+            }
+            
+            var nextFilterResponse = _nextFilter.Process( requestInfo );
+            if ( nextFilterResponse.Status == ( int ) HttpStatusCode.Unauthorized )
+            {
+                return UnauthorizedResponseWithAuth();
+            }
+
+            return nextFilterResponse;
+
+            /*if ( ctx.Request.Url.AbsolutePath.Equals( URI_LOGOUT ) )
             {
                 var logoutResp = new HttpResponse( HttpStatusCode.Found )
                     .WithHeader("Location", "/");
@@ -87,6 +119,7 @@ namespace PI.WebGarten.Demos.FollowMyTv.Filters
             }
 
             return _nextFilter.Process(requestInfo);
+            */
         }
 
         #endregion

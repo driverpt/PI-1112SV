@@ -31,7 +31,7 @@ namespace PI.WebGarten.Demos.FollowMyTv.Filters
 
             Permission permission = null;
 
-            while( permission == null && path.Equals(string.Empty) )
+            while( permission == null && !path.Equals(string.Empty) )
             {
                 permission = RepositoryLocator.Permissions.GetById(path);
                 path = path.Substring(0, path.LastIndexOf('/'));
