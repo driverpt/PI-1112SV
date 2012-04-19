@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
+﻿using System.Net;
 using PI.WebGarten.Demos.FollowMyTv.View;
 using PI.WebGarten.MethodBasedCommands;
+using PI.WebGarten.Mvc;
 
 namespace PI.WebGarten.Demos.FollowMyTv.Controller
 {
-    class ShowController
+    public class ShowController : BaseController
     {
         [HttpCmd(HttpMethod.Get, "/shows")]
         public HttpResponse Get()
