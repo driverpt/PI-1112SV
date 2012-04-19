@@ -47,9 +47,12 @@ namespace PI.WebGarten.Demos.FollowMyTv
 
             var host = new HttpListenerBasedHost( "http://localhost:8080/" );
             host.Add(DefaultMethodBasedCommandFactory.GetCommandsFor(
-                typeof(UserController), 
-                typeof(HomeController), 
-                typeof(ShowController)));
+                                                                    typeof(UserController    )
+                                                                  , typeof(HomeController    )
+                                                                  , typeof(ShowController    )
+                                                                  , typeof(ProposalController)
+                                                                  )
+            );
             
             host.Pipeline.AddFilterFirst( "ConsoleLog"    , typeof( RequestConsoleLogFilter )                   );
             host.Pipeline.AddFilterAfter( "Authentication", typeof( AuthenticationFilter    ), "ConsoleLog"     );
