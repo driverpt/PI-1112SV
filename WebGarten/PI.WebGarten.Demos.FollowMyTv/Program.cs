@@ -21,9 +21,9 @@ namespace PI.WebGarten.Demos.FollowMyTv
         static void InitUsers()
         {
             RepositoryLocator.Users
-                .Add("admin", new User("admin", "admin", Role.Administrator ))
-                .Add("user" , new User("user" , "user" , Role.AuthUser      ))
-                .Add("nalmendra", new User("nalmendra", "changeit", Role.Administrator))
+                .Add("admin"    , new User("admin"    , "admin"   , Role.Administrator ))
+                .Add("user"     , new User("user"     , "user"    , Role.AuthUser      ))
+                .Add("nalmendra", new User("nalmendra", "changeit", Role.Administrator ))
                 ;
         }
 
