@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using PI.WebGarten.Demos.FollowMyTv.Model;
+using PI.WebGarten.Demos.FollowMyTv.View;
 using PI.WebGarten.MethodBasedCommands;
 using PI.WebGarten.Mvc;
 
@@ -15,19 +16,18 @@ namespace PI.WebGarten.Demos.FollowMyTv.Controller
             var user = User.Identity.Name;
             IEnumerable<Proposal> proposals = RepositoryLocator.Proposals.GetAll().Where( nome => nome.User.Equals(user) );
 
-            return new HttpResponse(HttpStatusCode.OK, new ProposalsView(proposals));
+            return new HttpResponse(HttpStatusCode.OK, new ProposalView(proposals));
         }
 
         [HttpCmd( HttpMethod.Get, "/proposals/{id}" )]
         public HttpResponse GetProposal(int id)
-        {
-            return null;
+        {            return null;
         }
 
         [HttpCmd( HttpMethod.Get, "/proposals/new")]
         public HttpResponse GetNewProposalForm()
         {
-            return null;
+            return new HttpResponse(HttpStatusCode.OK, new ProposalForm());
         }
 
         [HttpCmd( HttpMethod.Post, "/proposals/new" )]
