@@ -60,17 +60,7 @@ namespace PI.WebGarten.HttpContent.Html
         {
             return new HtmlElem("img")
                 .WithAttr("src", src)
-                .WithAttr("alt", alt)
-                ;
-        }
-
-        public static IWritable Div(string id, string clazz, IWritable content)
-        {
-            return new HtmlElem("div")
-                .WithAttr("id", id)
-                .WithAttr("class", clazz)
-                .WithContent(content)
-                ;
+                .WithAttr("alt", alt);
         }
     }
 }

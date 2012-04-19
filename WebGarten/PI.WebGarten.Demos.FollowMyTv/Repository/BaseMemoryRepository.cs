@@ -4,7 +4,7 @@ using PI.WebGarten.Demos.FollowMyTv.Controller;
 
 namespace PI.WebGarten.Demos.FollowMyTv.Repository
 {
-    public class BaseMemoryRepository<T,K> : IRepository<T,K>
+    class BaseMemoryRepository<T,K> : IRepository<T,K>
     {
         private readonly IDictionary<K, T> _repo;
  
