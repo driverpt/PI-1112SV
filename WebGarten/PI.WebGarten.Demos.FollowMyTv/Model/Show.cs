@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace PI.WebGarten.Demos.FollowMyTv.Model
 {

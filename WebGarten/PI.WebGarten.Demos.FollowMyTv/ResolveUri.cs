@@ -18,5 +18,10 @@ namespace PI.WebGarten.Demos.FollowMyTv
         {
             return string.Format("/proposals/{0}", proposal.Id);
         }
+
+        public static string ForNewProposal()
+        {
+            return "/proposals";
+        }
     }
 }
