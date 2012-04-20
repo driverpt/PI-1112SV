@@ -9,6 +9,8 @@ namespace PI.WebGarten.Demos.FollowMyTv.Domain.DomainModels
             Synopsis = synopsis;
             Score = score;
         }
+
+        public int Number { get; set; }
         public string Title { get; set; }
         public long Duration { get; set; }
         public string Synopsis { get; set; }
