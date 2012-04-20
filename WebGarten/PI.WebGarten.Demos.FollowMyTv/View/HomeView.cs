@@ -10,7 +10,11 @@ namespace PI.WebGarten.Demos.FollowMyTv.View
     {
         public HomeView() : base("Home",
             H1(Text("Home")),
-            Ul( Li(A(ResolveUri.ForUsers(), "Users")), Li(A(ResolveUri.ForShows(), "TV Shows")))
+            Ul( 
+              Li(A(ResolveUri.ForUsers(), "Users"))
+            , Li(A(ResolveUri.ForShows(), "TV Shows"))
+            , Li(A(ResolveUri.ForProposals(), "Proposals List"))
+            )
             )
         {}
     }

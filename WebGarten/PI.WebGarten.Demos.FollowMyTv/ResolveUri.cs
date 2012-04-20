@@ -4,9 +4,9 @@ namespace PI.WebGarten.Demos.FollowMyTv
 {
     static class ResolveUri
     {
-        public static string For(User user)
+        public static string ForHome()
         {
-            return string.Format("/user/{0}", user.Identity.Name);
+            return "/";
         }
 
         public static string ForUsers()
@@ -14,48 +14,43 @@ namespace PI.WebGarten.Demos.FollowMyTv
             return "/users";
         }
 
-        public static string For(Proposal proposal)
-        {
-            return string.Format("/proposals/{0}", proposal.Id);
-        }
-
         public static string ForShows()
         {
             return "/shows";
+        }
+
+        public static string ForProposals()
+        {
+            return "/proposals";
+        }
+
+        public static string For(User user)
+        {
+            return string.Format("/user/{0}", user.Identity.Name);
+        }
+
+        public static string For(Proposal proposal)
+        {
+            return string.Format("/proposals/{0}", proposal.Id);
         }
         public static string ForNewProposal()
         {
             return "/proposals";
         }
 
-        public static string ForShow(string show)
+        public static string ForShow(Show show)
         {
-            return string.Format("/shows/{0}", show);
+            return string.Format("/shows/{0}", show.Name);
         }
 
-        public static string ForHome()
+        public static string ForSeason(Show show, Season season)
         {
-            return "/";
+            return string.Format("/shows/{0}/{1}", show.Name, season.Number);
         }
 
-        public static string ForShow(string name)
+        public static string ForEpisode(Show show, Season season, Episode episode)
         {
-            return string.Format("/shows/{0}", name);
-        }
-
-        public static string ForShows()
-        {
-            return "/shows";
-        }
-
-        public static string ForSeason(string show, string season)
-        {
-            return string.Format("/shows/{0}/{1}", show, season);
-        }
-
-        public static string ForEpisode(string show, string season, string episode)
-        {
-            return string.Format("/shows/{0}/{1}/{2}", show, season, episode);
+            return string.Format("/shows/{0}/{1}/{2}", show, season.Number, episode.Number);
         }
     }
 }

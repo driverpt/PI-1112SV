@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using PI.WebGarten.Demos.FollowMyTv.Model;
+using PI.WebGarten.Demos.FollowMyTv.Domain.DomainModels;
 using PI.WebGarten.HttpContent.Html;
 
 namespace PI.WebGarten.Demos.FollowMyTv.View
@@ -14,11 +14,12 @@ namespace PI.WebGarten.Demos.FollowMyTv.View
               A(ResolveUri.ForHome(), "Home")
             , H1(Text("TV Shows"))
             , H2(Text(show))
-            /*, H2(Text(season.Name))
-            , H2(Text(episode.Title))
-            , H2(Text(""+episode.Duration))
-            , H2(Text(episode.Synopsis))
-            , H2(Text(""+episode.Score))*/
+            , Ul(
+              Li(Text("Season: "), Text(season.Name))
+            , Li(Text("Title: "), Text(episode.Title))
+            , Li(Text("Duration: "), Text("" + episode.Duration))
+            , Li(Text("Synopsis: "), Text(episode.Synopsis))
+            , Li(Text("Score: "), Text("" + episode.Score)))
             )
         {}
     }
