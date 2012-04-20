@@ -5,11 +5,8 @@ namespace PI.WebGarten.Demos.FollowMyTv.Domain.DomainModels
 {
     public class Season
     {
-        public Season(string name, DateTime debut, DateTime finale )
+        public Season()
         {
-            Name = name;
-            Debut = debut;
-            Finale = finale;
             Episodes = new List<Episode>();
         }
 
@@ -17,6 +14,6 @@ namespace PI.WebGarten.Demos.FollowMyTv.Domain.DomainModels
         public string Name { get; set; }
         public DateTime Debut { get; set; }
         public DateTime Finale { get; set; }
-        public List<Episode> Episodes { get; set; }
+        public List<Episode> Episodes { get; private set; }
     }
 }

@@ -5,10 +5,8 @@ namespace PI.WebGarten.Demos.FollowMyTv.Domain.DomainModels
 {
     public class Show : IDomainModel<string>
     {
-        public Show(string name, string description)
+        public Show()
         {
-            Name = name;
-            Description = description;
             Seasons = new List<Season>();
         }
 
