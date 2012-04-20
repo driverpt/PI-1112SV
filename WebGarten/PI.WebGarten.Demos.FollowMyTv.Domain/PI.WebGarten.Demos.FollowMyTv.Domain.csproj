@@ -40,7 +40,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="DomainModels\Episode.cs" />
     <Compile Include="DomainModels\Interfaces\IDomainModel.cs" />
     <Compile Include="DomainModels\Permission.cs" />
