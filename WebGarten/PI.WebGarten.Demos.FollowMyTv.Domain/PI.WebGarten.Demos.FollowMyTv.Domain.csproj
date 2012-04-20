@@ -57,6 +57,7 @@
     <Compile Include="DomainModels\User.cs" />
     <Compile Include="Service\ProposalService.cs" />
     <Compile Include="Service\ShowService.cs" />
+    <Compile Include="Service\UserService.cs" />
     <Compile Include="UserRepositoryLocator.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
