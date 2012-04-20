@@ -13,6 +13,7 @@ namespace PI.WebGarten.Demos.FollowMyTv.Domain.DomainModels
             Episodes = new List<Episode>();
         }
 
+        public int Number { get; set; }
         public string Name { get; set; }
         public DateTime Debut { get; set; }
         public DateTime Finale { get; set; }
