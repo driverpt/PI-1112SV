@@ -24,14 +24,24 @@ namespace PI.WebGarten.Demos.FollowMyTv
             return string.Format("/proposals/{0}", proposal.Id);
         }
 
-        public static string ForShow(string id)
-        {
-            return "/shows/"+id;
-        }
-
         public static string ForShows()
         {
             return "/shows";
+        }
+
+        public static string ForShow(string show)
+        {
+            return string.Format("/shows/{0}", show);
+        }
+
+        public static string ForSeason(string show, string season)
+        {
+            return string.Format("/shows/{0}/{1}", show, season);
+        }
+
+        public static string ForEpisode(string show, string season, string episode)
+        {
+            return string.Format("/shows/{0}/{1}/{2}", show, season, episode);
         }
     }
 }
