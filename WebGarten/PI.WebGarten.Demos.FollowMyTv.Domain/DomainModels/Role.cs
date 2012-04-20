@@ -1,7 +1,6 @@
 using System.Collections.Generic;
-using System.Linq;
 
-namespace PI.WebGarten.Demos.FollowMyTv.Model
+namespace PI.WebGarten.Demos.FollowMyTv.Domain.DomainModels
 {
     public class Role
     {

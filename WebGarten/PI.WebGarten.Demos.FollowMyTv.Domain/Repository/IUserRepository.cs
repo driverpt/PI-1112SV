@@ -1,6 +1,6 @@
-using PI.WebGarten.Demos.FollowMyTv.Model;
+using PI.WebGarten.Demos.FollowMyTv.Domain.DomainModels;
 
-namespace PI.WebGarten.Demos.FollowMyTv.Repository
+namespace PI.WebGarten.Demos.FollowMyTv.Domain.Repository
 {
     public interface IUserRepository
     {

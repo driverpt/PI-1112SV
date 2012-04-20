@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using PI.WebGarten.Demos.FollowMyTv.Model;
+using PI.WebGarten.Demos.FollowMyTv.Domain.DomainModels;
 using PI.WebGarten.HttpContent.Html;
 
 namespace PI.WebGarten.Demos.FollowMyTv.View

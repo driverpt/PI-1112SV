@@ -1,10 +1,8 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Text;
-using PI.WebGarten.Demos.FollowMyTv.Model;
-using PI.WebGarten.Demos.FollowMyTv.View;
+using PI.WebGarten.Demos.FollowMyTv.Domain;
+using PI.WebGarten.Demos.FollowMyTv.Domain.DomainModels;
 using PI.WebGarten.HttpContent.Html;
 using PI.WebGarten.MethodBasedCommands;
 using PI.WebGarten.Mvc;

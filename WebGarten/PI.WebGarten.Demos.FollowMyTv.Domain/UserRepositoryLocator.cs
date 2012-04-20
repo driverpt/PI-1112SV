@@ -1,6 +1,6 @@
-using PI.WebGarten.Demos.FollowMyTv.Repository;
+using PI.WebGarten.Demos.FollowMyTv.Domain.Repository;
 
-namespace PI.WebGarten.Demos.FollowMyTv
+namespace PI.WebGarten.Demos.FollowMyTv.Domain
 {
     public class UserRepositoryLocator
     {

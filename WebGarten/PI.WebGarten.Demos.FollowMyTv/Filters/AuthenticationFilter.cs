@@ -1,9 +1,6 @@
 ﻿using System.Net;
-using PI.WebGarten.Demos.FollowMyTv.Model;
-using System;
-using System.Text;
-using PI.WebGarten.Demos.FollowMyTv.Repository;
-using PI.WebGarten.HttpContent.Html;
+using PI.WebGarten.Demos.FollowMyTv.Domain;
+using PI.WebGarten.Demos.FollowMyTv.Domain.Repository;
 
 namespace PI.WebGarten.Demos.FollowMyTv.Filters
 {
@@ -12,7 +9,7 @@ namespace PI.WebGarten.Demos.FollowMyTv.Filters
         private const string URI_LOGIN = "login";
         private const string COOKIE_AUTH_NAME = "PI_AUTH";
 
-        readonly IUserRepository UserRepo = UserRepositoryLocator.Instance;
+        private readonly IUserRepository UserRepo = UserRepositoryLocator.Instance;
 
         public AuthenticationFilter(string name) : base(name) {}
 

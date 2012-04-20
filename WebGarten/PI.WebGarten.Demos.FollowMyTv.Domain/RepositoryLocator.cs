@@ -1,7 +1,7 @@
-using PI.WebGarten.Demos.FollowMyTv.Model;
-using PI.WebGarten.Demos.FollowMyTv.Repository;
+using PI.WebGarten.Demos.FollowMyTv.Domain.DomainModels;
+using PI.WebGarten.Demos.FollowMyTv.Domain.Repository;
 
-namespace PI.WebGarten.Demos.FollowMyTv
+namespace PI.WebGarten.Demos.FollowMyTv.Domain
 {
     public class RepositoryLocator
     {
@@ -14,7 +14,7 @@ namespace PI.WebGarten.Demos.FollowMyTv
         private static readonly IRepository<Permission, string> PermissionRepo = new BaseMemoryRepository<Permission, string>();
         public static IRepository<Permission, string> Permissions { get { return PermissionRepo; } }
 
-        private static readonly IRepository<Proposal, int> ProposalRepo = new BaseMemoryRepository<Proposal, int>();
+        private static readonly IRepository<Proposal, int> ProposalRepo = new AutoIncrementMemoryRepository<Proposal>();
         public static IRepository<Proposal, int> Proposals { get { return ProposalRepo; } }
     }
 }

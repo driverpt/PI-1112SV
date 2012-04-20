@@ -1,4 +1,4 @@
-using PI.WebGarten.Demos.FollowMyTv.Model;
+using PI.WebGarten.Demos.FollowMyTv.Domain.DomainModels;
 
 namespace PI.WebGarten.Demos.FollowMyTv
 {
@@ -26,17 +26,17 @@ namespace PI.WebGarten.Demos.FollowMyTv
 
         public static string ForHome()
         {
-            throw new System.NotImplementedException();
+            return "/";
         }
 
         public static string ForShow(string name)
         {
-            throw new System.NotImplementedException();
+            return string.Format("/shows/{0}", name);
         }
 
         public static string ForShows()
         {
-            throw new System.NotImplementedException();
+            return "/shows";
         }
     }
 }

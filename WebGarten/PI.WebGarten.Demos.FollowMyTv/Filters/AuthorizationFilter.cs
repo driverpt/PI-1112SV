@@ -1,4 +1,6 @@
 using System.Net;
+using PI.WebGarten.Demos.FollowMyTv.Domain;
+using PI.WebGarten.Demos.FollowMyTv.Domain.DomainModels;
 
 namespace PI.WebGarten.Demos.FollowMyTv.Filters
 {

@@ -1,7 +1,8 @@
 ﻿using System.Diagnostics;
 using PI.WebGarten.Demos.FollowMyTv.Controller;
+using PI.WebGarten.Demos.FollowMyTv.Domain;
+using PI.WebGarten.Demos.FollowMyTv.Domain.DomainModels;
 using PI.WebGarten.Demos.FollowMyTv.Filters;
-using PI.WebGarten.Demos.FollowMyTv.Model;
 using PI.WebGarten.MethodBasedCommands;
 using AuthenticationFilter = PI.WebGarten.Demos.FollowMyTv.Filters.AuthenticationFilter;
 
@@ -12,29 +13,30 @@ namespace PI.WebGarten.Demos.FollowMyTv
         static void InitPermissions()
         {
             RepositoryLocator.Permissions
-                .Add("/proposals", new Permission("/proposals", Role.AuthUser))
-                .Add("/proposals/accept", new Permission("/proposals/accept", Role.Administrator))
-                .Add("/logout", new Permission("/logout", Role.AuthUser))
+                .Add(new Permission("/proposals", Role.AuthUser))
+                .Add(new Permission("/proposals/accept", Role.Administrator))
+                .Add(new Permission("/logout", Role.AuthUser))
                 ;
         }
 
         static void InitUsers()
         {
             RepositoryLocator.Users
-                .Add("admin"    , new User("admin"    , "admin"   , Role.Administrator ))
-                .Add("user"     , new User("user"     , "user"    , Role.AuthUser      ))
-                .Add("nalmendra", new User("nalmendra", "changeit", Role.Administrator ))
+                .Add(new User("admin"    , "admin"   , Role.Administrator ))
+                .Add(new User("user"     , "user"    , Role.AuthUser      ))
+                .Add(new User("nalmendra", "changeit", Role.Administrator ))
                 ;
         }
 
         static void InitShows()
         {
-            RepositoryLocator.Shows.Add("Breaking Bad", new Show("Breaking Bad"
-                                                                , "Informed he has terminal cancer, an underachieving chemistry genius " +
-                                                                  "turned high school chemistry teacher turns to using his expertise in " +
-                                                                  "chemistry to provide a legacy for his family..." +
-                                                                  " by producing the world's highest quality crystal meth."
-                                                                , 5));
+            RepositoryLocator.Shows.Add(new Show("Breaking Bad"
+                                                , "Informed he has terminal cancer, an underachieving chemistry genius " +
+                                                  "turned high school chemistry teacher turns to using his expertise in " +
+                                                  "chemistry to provide a legacy for his family..." +
+                                                  " by producing the world's highest quality crystal meth."
+                                                )
+                                       );
         }
 
         static void Main( string[] args )
@@ -47,11 +49,11 @@ namespace PI.WebGarten.Demos.FollowMyTv
 
             var host = new HttpListenerBasedHost( "http://localhost:8080/" );
             host.Add(DefaultMethodBasedCommandFactory.GetCommandsFor(
-                                                                    typeof(UserController    )
-                                                                  , typeof(HomeController    )
-                                                                  , typeof(ShowController    )
-                                                                  , typeof(ProposalController)
-                                                                  , typeof(AuthController    )
+                                                                    typeof( UserController     )
+                                                                  , typeof( HomeController     )
+                                                                  , typeof( ShowController     )
+                                                                  , typeof( ProposalController )
+                                                                  , typeof( AuthController     )
                                                                   )
             );
             

@@ -1,17 +1,17 @@
 using System;
 using System.Collections.Generic;
-using PI.WebGarten.Demos.FollowMyTv.Controller;
+using PI.WebGarten.Demos.FollowMyTv.Domain.DomainModels.Interfaces;
 
-namespace PI.WebGarten.Demos.FollowMyTv.Repository
+namespace PI.WebGarten.Demos.FollowMyTv.Domain.Repository
 {
-    public class BaseMemoryRepository<T,K> : IRepository<T,K>
+    public class BaseMemoryRepository<T, K> : IRepository<T, K> where T : IDomainModel<K>
     {
-        private readonly IDictionary<K, T> _repo;
- 
+        protected readonly IDictionary<K, T> _repo;
+
         public BaseMemoryRepository()
         {
             _repo = new Dictionary<K, T>();
-        } 
+        }
 
         public IEnumerable<T> GetAll()
         {
@@ -25,13 +25,18 @@ namespace PI.WebGarten.Demos.FollowMyTv.Repository
             return obj;
         }
 
-        public IRepository<T, K> Add( K id, T obj )
+        public IRepository<T, K> Add(T obj)
         {
-            if( obj == null )
+            return Add(obj.Id, obj);
+        }
+
+        public IRepository<T, K> Add(K id, T obj)
+        {
+            if (obj == null)
             {
                 throw new NullReferenceException();
             }
-            _repo.Add( id, obj );
+            _repo.Add(id, obj);
             return this;
         }
     }
