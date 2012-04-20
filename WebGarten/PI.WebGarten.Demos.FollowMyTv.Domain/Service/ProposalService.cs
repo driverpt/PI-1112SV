@@ -6,6 +6,11 @@ namespace PI.WebGarten.Demos.FollowMyTv.Domain.Service
 {
     public static class ProposalService
     {
+        public static Proposal GetProposalById(int id)
+        {
+            return RepositoryLocator.Proposals.GetById(id);
+        }
+
         public static IEnumerable<Proposal> GetProposalsByUser(string username)
         {
             return RepositoryLocator.Proposals.GetAll().Where(proposal => proposal.User.Identity.Name == username);

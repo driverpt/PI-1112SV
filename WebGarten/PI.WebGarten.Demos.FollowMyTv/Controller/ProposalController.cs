@@ -22,7 +22,13 @@ namespace PI.WebGarten.Demos.FollowMyTv.Controller
 
         [HttpCmd( HttpMethod.Get, "/proposals/{id}" )]
         public HttpResponse GetProposal(int id)
-        {            return null;
+        {
+            Proposal proposal = ProposalService.GetProposalById(id);
+            if ( proposal.User.Identity.Name.Equals(User) )
+            {
+                return new HttpResponse( HttpStatusCode.OK, new ProposalView( proposal ) );
+            }
+            return new HttpResponse( HttpStatusCode.Unauthorized );
         }
 
         [HttpCmd( HttpMethod.Get, "/proposals/new")]
