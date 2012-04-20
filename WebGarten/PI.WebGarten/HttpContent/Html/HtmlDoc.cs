@@ -1,4 +1,6 @@
-﻿namespace PI.WebGarten.HttpContent.Html
+﻿using System.Collections.Generic;
+
+namespace PI.WebGarten.HttpContent.Html
 {
     using System.IO;
 

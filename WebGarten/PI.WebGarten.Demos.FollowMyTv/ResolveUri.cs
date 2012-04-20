@@ -33,9 +33,35 @@ namespace PI.WebGarten.Demos.FollowMyTv
         {
             return string.Format("/proposals/{0}", proposal.Id);
         }
+
         public static string ForNewProposal()
         {
-            return "/proposals";
+            return "/proposals/new";
+        }
+
+        public static string ForSubmitEditProposal()
+        {
+            return "/proposals/edit";
+        }
+
+        public static string ForEditProposal(Proposal proposal)
+        {
+            return string.Format("/proposals/edit/{0}", proposal.Id);
+        }
+
+        public static string ForNewProposalFromExistingShow(Show show)
+        {
+            return string.Format("/proposals/new/{0}", show.Name);
+        }
+
+        public static string ForAcceptProposal( Proposal proposal )
+        {
+            return string.Format( "/proposals/accept/{0}", proposal.Id );
+        }
+
+        public static string ForRejectProposal( Proposal proposal )
+        {
+            return string.Format( "/proposals/cancel/{0}", proposal.Id );
         }
 
         public static string ForShow(Show show)

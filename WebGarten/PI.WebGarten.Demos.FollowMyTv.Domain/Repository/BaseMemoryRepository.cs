@@ -25,7 +25,7 @@ namespace PI.WebGarten.Demos.FollowMyTv.Domain.Repository
             return obj;
         }
 
-        public IRepository<T, K> Add(T obj)
+        public virtual IRepository<T, K> Add(T obj)
         {
             return Add(obj.Id, obj);
         }

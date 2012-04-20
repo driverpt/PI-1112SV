@@ -1,3 +1,5 @@
+using System.Linq;
+
 namespace PI.WebGarten.HttpContent.Html
 {
     using System;
@@ -21,16 +23,17 @@ namespace PI.WebGarten.HttpContent.Html
             return new HtmlElem("label", new HtmlText(text))
                 .WithAttr("for", to);
         }
-        public static IWritable InputText(String name)
-        {
-            return InputText(name, false);
-        }
 
-        public static IWritable InputText(String name, bool encoded)
+        public static IWritable InputText(String name, bool encoded = false, String value = null)
         {
-            return new HtmlElem( "input" )
-                .WithAttr( "type", (encoded) ? "password" : "text" )
-                .WithAttr( "name", name );            
+            var element = new HtmlElem("input")
+                .WithAttr("type", (encoded) ? "password" : "text")
+                .WithAttr("name", name);
+            if( value != null )
+            {
+                element.WithAttr("value", value);
+            }
+            return element;
         }
 
         public static IWritable InputSubmit(String value)
@@ -39,6 +42,15 @@ namespace PI.WebGarten.HttpContent.Html
                 .WithAttr("type", "submit")
                 .WithAttr("value", value);
         }
+
+        public static IWritable InputHidden(String name, String value)
+        {
+            return new HtmlElem( "input" )
+                .WithAttr( "type" , "hidden" )
+                .WithAttr( "name" , name     )
+                .WithAttr( "value", value    );
+        }
+
         public static IWritable Ul(params IWritable[] c)
         {
             return new HtmlElem("ul", c);
@@ -64,13 +76,16 @@ namespace PI.WebGarten.HttpContent.Html
                 ;
         }
 
-        public static IWritable Div(string id, string clazz, IWritable content)
+        public static IWritable Div(string id, string clazz, params IWritable[] content)
         {
-            return new HtmlElem("div")
+            HtmlElem elem = new HtmlElem("div")
                 .WithAttr("id", id)
-                .WithAttr("class", clazz)
-                .WithContent(content)
-                ;
+                .WithAttr("class", clazz);
+            foreach(HtmlElem htmlElem in content)
+            {
+                elem.WithContent(htmlElem);
+            }
+            return elem;
         }
     }
 }

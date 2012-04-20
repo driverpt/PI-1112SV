@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using PI.WebGarten.Demos.FollowMyTv.Domain.DomainModels;
 
@@ -8,7 +9,12 @@ namespace PI.WebGarten.Demos.FollowMyTv.Domain.Service
     {
         public static Proposal GetProposalById(int id)
         {
-            return RepositoryLocator.Proposals.GetById(id);
+            Proposal proposal = RepositoryLocator.Proposals.GetById(id);
+            if ( proposal == null )
+            {
+                throw new ArgumentException( "There is no such proposal" );
+            }
+            return proposal;
         }
 
         public static IEnumerable<Proposal> GetProposalsByUser(string username)
@@ -26,10 +32,32 @@ namespace PI.WebGarten.Demos.FollowMyTv.Domain.Service
             return RepositoryLocator.Proposals.GetAll();
         }
 
-        public static void AddProposal( Show show, User user )
+        public static Proposal AddProposal( Show show, User user )
         {
             Proposal newProposal = new Proposal { Show = show, User = user };
             RepositoryLocator.Proposals.Add(newProposal);
+            return newProposal;
+        }
+
+        public static void AcceptProposal( int idProposal )
+        {
+            Proposal proposal = GetProposalById(idProposal);
+            SetProposalStatus( proposal, ProposalStatus.Accepted );
+        }
+
+        public static void RejectProposal( int idProposal )
+        {
+            Proposal proposal = GetProposalById( idProposal );
+            SetProposalStatus( proposal, ProposalStatus.Rejected );
+        }
+
+        private static void SetProposalStatus( Proposal proposal, ProposalStatus status )
+        {
+            if( proposal.Status != ProposalStatus.Created )
+            {
+                throw new InvalidOperationException();
+            }
+            proposal.Status = status;
         }
     }
 }

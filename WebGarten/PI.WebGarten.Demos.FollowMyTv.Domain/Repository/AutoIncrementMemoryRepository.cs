@@ -11,7 +11,7 @@ namespace PI.WebGarten.Demos.FollowMyTv.Domain.Repository
             _currentId = 0;
         }
 
-        public new IRepository<T, int> Add(T obj)
+        public override IRepository<T, int> Add(T obj)
         {
             int newId = ++_currentId;
             obj.Id = newId;

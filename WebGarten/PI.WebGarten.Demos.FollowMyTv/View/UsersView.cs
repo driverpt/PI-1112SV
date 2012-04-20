@@ -5,7 +5,7 @@ using PI.WebGarten.HttpContent.Html;
 
 namespace PI.WebGarten.Demos.FollowMyTv.View
 {
-    public class UsersView : HtmlDoc
+    public class UsersView : MasterPageView
     {
         public UsersView( IEnumerable<User> users ) :
             base( "Users",

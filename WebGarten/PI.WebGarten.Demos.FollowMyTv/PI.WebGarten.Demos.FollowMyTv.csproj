@@ -44,10 +44,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AuthenticationConfiguration.cs" />
     <Compile Include="Controller\AuthController.cs" />
     <Compile Include="Controller\HomeController.cs" />
     <Compile Include="Controller\ProposalController.cs" />
     <Compile Include="Controller\ShowController.cs" />
+    <Compile Include="ExtensionMethods.cs" />
     <Compile Include="Filters\AuthenticationFilter.cs" />
     <Compile Include="Filters\AuthorizationFilter.cs" />
     <Compile Include="Filters\BaseFilter.cs" />
@@ -58,6 +60,7 @@
     <Compile Include="ResolveUri.cs" />
     <Compile Include="View\EpisodeView.cs" />
     <Compile Include="View\HomeView.cs" />
+    <Compile Include="View\MasterPageView.cs" />
     <Compile Include="View\SeasonView.cs" />
     <Compile Include="View\ShowsView.cs" />
     <Compile Include="View\ProposalForm.cs" />

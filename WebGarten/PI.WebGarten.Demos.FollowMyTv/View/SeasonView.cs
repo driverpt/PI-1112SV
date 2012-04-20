@@ -5,7 +5,7 @@ using PI.WebGarten.HttpContent.Html;
 
 namespace PI.WebGarten.Demos.FollowMyTv.View
 {
-    class SeasonView : HtmlDoc
+    class SeasonView : MasterPageView
     {
         public SeasonView(string show, Season season) :
             base("Season",

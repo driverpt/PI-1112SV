@@ -9,7 +9,10 @@ namespace PI.WebGarten.Demos.FollowMyTv.Domain.DomainModels
         public User(string username, string password, Role role) : base(new GenericIdentity(username), Role.GetContainedRoles(role) )
         {
             Password = password;
+            Role = role;
         }
+
+        public Role Role { get; private set; }
 
         public string Password { get; set; }
 
@@ -18,5 +21,6 @@ namespace PI.WebGarten.Demos.FollowMyTv.Domain.DomainModels
             get { return Identity.Name; }
             set { throw new InvalidOperationException("Setter Not Allowed"); }
         }
+        
     }
 }
