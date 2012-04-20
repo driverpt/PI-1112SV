@@ -56,7 +56,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RequestConsoleLogFilter.cs" />
     <Compile Include="ResolveUri.cs" />
+    <Compile Include="View\EpisodeView.cs" />
     <Compile Include="View\HomeView.cs" />
+    <Compile Include="View\SeasonView.cs" />
     <Compile Include="View\ShowsView.cs" />
     <Compile Include="View\ProposalForm.cs" />
     <Compile Include="View\ProposalView.cs" />

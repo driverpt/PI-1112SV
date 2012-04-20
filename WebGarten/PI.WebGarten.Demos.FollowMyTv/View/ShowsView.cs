@@ -20,7 +20,7 @@ namespace PI.WebGarten.Demos.FollowMyTv.View
                   A(ResolveUri.ForHome(), "Home")
                 , Ul(Li(Text("Name: "), Text(show.Name)), 
                      Li(Text("Description: "), Text(show.Description)), 
-                     Li(Text("Seasons: "), Text(show.Seasons.ToString())))
+                     Li(Text("Seasons: "), Ul(show.Seasons.Select( season => Li(A(ResolveUri.ForSeason(show.Name, season.Name), season.Name))).ToArray())))
             )
         { }
     }
