@@ -4,14 +4,9 @@ namespace PI.WebGarten.Demos.FollowMyTv
 {
     static class ResolveUri
     {
-        public static string ForHome()
-        {
-            return "/";
-        }
-
         public static string For(User user)
         {
-            return string.Format("/user/{0}", user.Identity.Name/*user.Id*/);
+            return string.Format("/user/{0}", user.Identity.Name);
         }
 
         public static string ForUsers()
@@ -24,14 +19,24 @@ namespace PI.WebGarten.Demos.FollowMyTv
             return string.Format("/proposals/{0}", proposal.Id);
         }
 
-        public static string ForShow(string id)
+        public static string ForNewProposal()
         {
-            return "/shows/"+id;
+            return "/proposals";
+        }
+
+        public static string ForHome()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public static string ForShow(string name)
+        {
+            throw new System.NotImplementedException();
         }
 
         public static string ForShows()
         {
-            return "/shows";
+            throw new System.NotImplementedException();
         }
     }
 }
