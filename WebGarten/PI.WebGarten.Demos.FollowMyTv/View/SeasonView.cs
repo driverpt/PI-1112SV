@@ -18,7 +18,7 @@ namespace PI.WebGarten.Demos.FollowMyTv.View
             , Text("Starts: "), Text(season.Debut.ToString())
             , P(Text(""))
             , Text("Ends: "), Text(season.Finale.ToString())
-            , Ul(season.Episodes.Select(episode => Li(A(ResolveUri.ForEpisode(show, ShowService.GetEpisodeByNameShowAndSeason(show, season.Number, episode.Title), episode.Title), episode.Title))).ToArray())
+            , Ul(season.Episodes.Select(episode => Li(A(ResolveUri.ForEpisode(ShowService.GetShowByName(show), ShowService.GetSeason(show, season.Number), ShowService.GetEpisodeByNumberShowAndSeason(show, season.Number, episode.Number)), episode.Title))).ToArray())
             )
         {}
     }
