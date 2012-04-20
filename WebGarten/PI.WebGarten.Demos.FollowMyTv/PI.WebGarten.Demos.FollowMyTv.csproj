@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controller\AuthController.cs" />
     <Compile Include="Controller\HomeController.cs" />
     <Compile Include="Controller\ProposalController.cs" />
     <Compile Include="Controller\ShowController.cs" />
@@ -70,6 +71,7 @@
     <Compile Include="View\HomeView.cs" />
     <Compile Include="View\ShowsView.cs" />
     <Compile Include="UserRepositoryLocator.cs" />
+    <Compile Include="View\ProposalForm.cs" />
     <Compile Include="View\ProposalView.cs" />
     <Compile Include="View\UsersView.cs" />
   </ItemGroup>

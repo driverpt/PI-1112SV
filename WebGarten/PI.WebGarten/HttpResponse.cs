@@ -32,6 +32,13 @@ namespace PI.WebGarten
             }
         }
 
+        public Boolean HasAuthHeader()
+        {
+            if (_headers == null || _headers.Count == 0) 
+                return false;
+            return _headers.ContainsKey("WWW-Authenticate");
+        }
+
         public HttpResponse WithHeader(string name, string value)
         {
             EnsureHeaders();
