@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:pi="http://www.adeetc.isel.ipl.pt/programacao/pi/"
+           targetNamespace="http://www.adeetc.isel.ipl.pt/programacao/pi/"
+           >
+    <xs:element name="Show">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Name"        type="xs:string" />
+                <xs:element name="Description" type="xs:string" />
+                <xs:element name="Seasons" >
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="Season" type="pi:Season" />
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+    
+    <xs:complexType name="Season">
+        <xs:sequence>
+            <xs:element name="Name" type="xs:string" />
+            <xs:element name="StartDate" type="xs:date" />
+            <xs:element name="EndDate" type="xs:date" />
+            <xs:element name="Episodes" >
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element name="Episode" type="pi:Episode" />
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="Episode" >
+        <xs:sequence>
+            <xs:element name="Name" type="xs:string"/>
+            <xs:element name="Duration" type="xs:long"/>
+            <xs:element name="Synopsis" type="xs:string"/>
+            <xs:element name="Rating">
+                <xs:simpleType>
+                    <xs:restriction base="xs:int">
+                        <xs:minInclusive value="0" />
+                        <xs:maxInclusive value="5" />
+                    </xs:restriction>
+                </xs:simpleType>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+ </xs:schema>

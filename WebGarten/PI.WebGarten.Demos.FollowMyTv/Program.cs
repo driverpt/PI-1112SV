@@ -51,10 +51,10 @@ namespace PI.WebGarten.Demos.FollowMyTv
                                         Title = "Pilot"
                                       , Duration = 40
                                       , Synopsis =
-                                          "Walter White, a 50-year old chemistry teacher, secretly begins making crystal methamphetamine" +
-                                          " to support his family when he finds out that he has terminal lung cancer. He teams up with a former student," +
-                                          " Jesse Pinkman, who is a meth dealer. Jesse is trying to sell the meth but the dealers snatch him and make him" +
-                                          " show them the lab. Walter knows they intend to kill him so he poisons them while showing them his recipe."
+                                           "Walter White, a 50-year old chemistry teacher, secretly begins making crystal methamphetamine"
+                                      +    " to support his family when he finds out that he has terminal lung cancer. He teams up with a former student,"
+                                      +    " Jesse Pinkman, who is a meth dealer. Jesse is trying to sell the meth but the dealers snatch him and make him"
+                                      +    " show them the lab. Walter knows they intend to kill him so he poisons them while showing them his recipe."
                                       , Score = 4
                                   };
             ShowService.AddShow(show);
@@ -77,6 +77,7 @@ namespace PI.WebGarten.Demos.FollowMyTv
                                                                   , typeof( ShowController     )
                                                                   , typeof( ProposalController )
                                                                   , typeof( AuthController     )
+                                                                  , typeof( ApiController      )
                                                                   )
             );
             
