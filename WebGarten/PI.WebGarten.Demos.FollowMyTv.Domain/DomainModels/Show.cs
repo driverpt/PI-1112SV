@@ -3,16 +3,20 @@ using PI.WebGarten.Demos.FollowMyTv.Domain.DomainModels.Interfaces;
 
 namespace PI.WebGarten.Demos.FollowMyTv.Domain.DomainModels
 {
+    // Must not define the setter for Collections : http://softwareblog.alcedo.com/post/2010/01/21/Readonly-collection-properties-and-XmlSerializer.aspx
+
     public class Show : IDomainModel<string>
     {
+        private readonly List<Season> _seasons; 
+
         public Show()
         {
-            Seasons = new List<Season>();
+            _seasons = new List<Season>();
         }
 
         public string Name { get; set; }
         public string Description { get; set; }
-        public List<Season> Seasons { get; private set; }
+        public List<Season> Seasons { get { return _seasons; } }
 
         public string Id
         {

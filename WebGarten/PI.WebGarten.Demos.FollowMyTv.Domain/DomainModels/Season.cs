@@ -5,15 +5,17 @@ namespace PI.WebGarten.Demos.FollowMyTv.Domain.DomainModels
 {
     public class Season
     {
+        private readonly List<Episode> _episodes; 
+
         public Season()
         {
-            Episodes = new List<Episode>();
+            _episodes = new List<Episode>();
         }
 
         public int Number { get; set; }
         public string Name { get; set; }
         public DateTime Debut { get; set; }
         public DateTime Finale { get; set; }
-        public List<Episode> Episodes { get; private set; }
+        public List<Episode> Episodes { get { return _episodes; } }
     }
 }

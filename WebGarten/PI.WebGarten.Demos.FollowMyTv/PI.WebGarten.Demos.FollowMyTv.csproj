@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AuthenticationConfiguration.cs" />
+    <Compile Include="Controller\ApiController.cs" />
     <Compile Include="Controller\AuthController.cs" />
     <Compile Include="Controller\HomeController.cs" />
     <Compile Include="Controller\ProposalController.cs" />
@@ -54,6 +55,7 @@
     <Compile Include="Filters\AuthorizationFilter.cs" />
     <Compile Include="Filters\BaseFilter.cs" />
     <Compile Include="Controller\UserController.cs" />
+    <Compile Include="HttpContent\Xml\XmlDoc.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RequestConsoleLogFilter.cs" />
@@ -82,6 +84,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Model\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ShowSchema.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
