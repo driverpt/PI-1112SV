@@ -1,0 +1,47 @@
+﻿@using FollowMyTv.WebApp
+@model IEnumerable<FollowMyTv.DomainLayer.Show>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @if ( User.IsAdministrator() )
+    {
+        @Html.ActionLink( "Create New", "Create" )
+    }
+</p>
+<table>
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Description
+        </th>
+        <th>
+            
+        </th>
+    </tr>
+
+@foreach ( var item in Model )
+{
+    <tr>
+        <td>
+            @Html.DisplayFor( modelItem => item.Name )
+        </td>
+        <td>
+            @Html.DisplayFor( modelItem => item.Description )
+        </td>
+        @if ( !User.IsAuthenticatedUser() )
+        {
+            <td>
+                <span>@Html.Partial( "Showactions", item )</span>
+            </td>
+        }
+    </tr>
+}
+</table>

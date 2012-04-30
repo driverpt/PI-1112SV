@@ -43,6 +43,8 @@
     <Compile Include="AutoIncrementMemoryRepository.cs" />
     <Compile Include="BaseMemoryRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ProposalMemoryRepository.cs" />
+    <Compile Include="ShowMemoryRepository.cs" />
     <Compile Include="UserMemoryRepository.cs" />
   </ItemGroup>
   <ItemGroup>

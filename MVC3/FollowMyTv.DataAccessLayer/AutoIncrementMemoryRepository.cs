@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using FollowMyTv.DomainLayer.Interfaces;
 using FollowMyTv.DomainLayer.Repository;
 
@@ -7,9 +9,11 @@ namespace FollowMyTv.DataAccessLayer
     {
         private volatile int _currentId;
 
-        public AutoIncrementMemoryRepository()
+        private static readonly IDictionary<int, T> Repo = new Dictionary<int, T>();
+
+        public AutoIncrementMemoryRepository() : base(Repo)
         {
-            _currentId = 0;
+            _currentId = Repo.Keys.Max();
         }
 
         public override IRepository<T, int> Add(T obj)

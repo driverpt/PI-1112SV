@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using FollowMyTv.DomainLayer;
 using FollowMyTv.DomainLayer.Repository;
 
@@ -5,8 +6,9 @@ namespace FollowMyTv.DataAccessLayer
 {
     public class UserMemoryRepository : BaseMemoryRepository<User, string>, IUserRepository
     {
-        private static readonly UserMemoryRepository Repo = new UserMemoryRepository();
-        public static UserMemoryRepository Instance { get { return Repo; } }
+        private static readonly IDictionary<string, User> Repo = new Dictionary<string, User>(); 
+
+        protected UserMemoryRepository() : base(Repo){}
 
         public User Authenticate(string username, string password)
         {

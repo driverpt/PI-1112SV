@@ -9,9 +9,9 @@ namespace FollowMyTv.DataAccessLayer
     {
         protected readonly IDictionary<K, T> _repo;
 
-        public BaseMemoryRepository()
+        protected BaseMemoryRepository(IDictionary<K, T> repo)
         {
-            _repo = new Dictionary<K, T>();
+            _repo = repo;
         }
 
         public IEnumerable<T> GetAll()
