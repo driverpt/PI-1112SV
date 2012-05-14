@@ -1,16 +1,13 @@
 ﻿@using FollowMyTv.WebApp
 @model FollowMyTv.DomainLayer.Show
-           
-@if ( !User.IsAnonymousUser() )
+
+@if ( User.IsAdministrator() )
 {
-    if ( User.IsAdministrator() )
-    {
-        @Html.ActionLink( "Edit", "Edit", new { id = Model.Id } ) <text>|</text>;
-        @Html.ActionLink( "Details", "Details", new { id = Model.Id } ) <text>|</text>
-        @Html.ActionLink( "Delete", "Delete", new { id = Model.Id } ) <text>|</text>
-    }
-    else
-    {
-        @Html.ActionLink( "Create Proposal", "Create", "Shows" )
-    }
+    @Html.ActionLink( "Edit", "Edit", new { id = Model.Id } ) <text>|</text>;
+    @Html.ActionLink( "Details", "Details", new { id = Model.Id } ) <text>|</text>
+    @Html.ActionLink( "Delete", "Delete", new { id = Model.Id } ) <text>|</text>
+}
+else
+{
+    @Html.ActionLink( "Create Proposal", "Create", "Proposals", new { id = Model.Id }, null )
 }

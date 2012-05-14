@@ -25,5 +25,6 @@ namespace FollowMyTv.DomainLayer
 
         public bool IsActivated { get; set; }
         public string Email { get; set; }
+        public bool IsSuspended { get; set; }
     }
 }

@@ -1,0 +1,55 @@
+﻿@model IEnumerable<FollowMyTv.DomainLayer.User>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<table>
+    <tr>
+        <th>
+            Username
+        </th>
+        <th>
+            IsActivated
+        </th>
+        <th>
+            Suspended
+        </th>
+        <th>
+            Email
+        </th>
+        <th>Actions</th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Id)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsActivated)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IsSuspended)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @if( !item.IsSuspended )
+            {
+                @Html.ActionLink( "Suspend", "Suspend", new { id = item.Id } ) <text>|</text>
+            }
+            else
+            {
+                @Html.ActionLink( "Unsuspend", "Unsuspend", new { id = item.Id } ) <text>|</text>
+            }
+            @Html.ActionLink( "Roles", "Edit", new { id = item.Id } )
+        </td>
+    </tr>
+}
+
+</table>

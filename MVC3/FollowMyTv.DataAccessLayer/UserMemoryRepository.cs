@@ -71,5 +71,10 @@ namespace FollowMyTv.DataAccessLayer
             user.Password = newPassword;
             return true;
         }
+
+        public IEnumerable<User> GetAllUsers()
+        {
+            return GetAll();
+        }
     }
 }

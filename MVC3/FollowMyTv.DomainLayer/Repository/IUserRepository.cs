@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace FollowMyTv.DomainLayer.Repository
 {
     public interface IUserRepository
@@ -9,5 +11,6 @@ namespace FollowMyTv.DomainLayer.Repository
         bool ActivateUser(string username);
         bool SetUserRole(string username, Role role);
         bool ChangePassword(string username, string newPassword);
+        IEnumerable<User> GetAllUsers();
     }
 }

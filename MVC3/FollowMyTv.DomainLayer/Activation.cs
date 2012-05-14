@@ -14,5 +14,7 @@ namespace FollowMyTv.DomainLayer
         }
 
         public string Username { get; set; }
+
+        public bool IsUsed { get; set; }
     }
 }

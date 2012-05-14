@@ -34,6 +34,8 @@ namespace FollowMyTv.DataAccessLayer
                                       +    " show them the lab. Walter knows they intend to kill him so he poisons them while showing them his recipe."
                                       , Score = 4
                                   };
+            season.Episodes.Add(episode);
+            show.Seasons.Add(season);
         Repo.Add(show.Name, show);    
         }
 

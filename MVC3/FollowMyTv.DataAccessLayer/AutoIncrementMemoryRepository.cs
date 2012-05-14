@@ -13,7 +13,7 @@ namespace FollowMyTv.DataAccessLayer
 
         public AutoIncrementMemoryRepository() : base(Repo)
         {
-            _currentId = Repo.Keys.Max();
+            _currentId = Repo.Keys.Count;
         }
 
         public override IRepository<T, int> Add(T obj)

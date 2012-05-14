@@ -36,12 +36,9 @@
         <td>
             @Html.DisplayFor( modelItem => item.Description )
         </td>
-        @if ( !User.IsAuthenticatedUser() )
-        {
-            <td>
-                <span>@Html.Partial( "Showactions", item )</span>
-            </td>
-        }
+        <td>
+            <span>@Html.Partial( "Showactions", item )</span>
+        </td>
     </tr>
 }
 </table>

@@ -7,16 +7,14 @@ namespace FollowMyTv.DomainLayer
 
     public class Show : IDomainModel<string>
     {
-        private readonly List<Season> _seasons; 
-
         public Show()
         {
-            _seasons = new List<Season>();
+            Seasons = new List<Season>();
         }
 
         public string Name { get; set; }
         public string Description { get; set; }
-        public List<Season> Seasons { get { return _seasons; } }
+        public List<Season> Seasons { get; set; }
 
         public string Id
         {

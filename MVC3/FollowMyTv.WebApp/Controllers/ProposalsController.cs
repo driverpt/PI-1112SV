@@ -1,19 +1,39 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
+using FollowMyTv.DomainLayer;
+using FollowMyTv.DomainLayer.Repository;
+using FollowMyTv.DomainLayer.Service;
+using FollowMyTv.WebApp.Models;
+using Microsoft.Practices.ObjectBuilder2;
+using Microsoft.Practices.Unity;
 
 namespace FollowMyTv.WebApp.Controllers
 {
+    [Authorize]
     public class ProposalsController : Controller
     {
+        private ProposalService ProposalService;
+        private ShowService ShowService;
+        private IUserRepository UserRepo;
+
+        [InjectionConstructor]
+        public ProposalsController( [Dependency] ProposalService proposalService, [Dependency] IUserRepository userRepository, [Dependency] ShowService showService )
+        {
+            ProposalService = proposalService;
+            UserRepo = userRepository;
+            ShowService = showService;
+        }
         //
         // GET: /Proposals/
 
         public ActionResult Index()
         {
-            return View();
+            if( User.IsAdministrator() )
+            {
+                return View(ProposalService.GetAllProposals());
+            }
+            return View(ProposalService.GetProposalsByUser(User.Identity.Name));
         }
 
         //
@@ -27,21 +47,31 @@ namespace FollowMyTv.WebApp.Controllers
         //
         // GET: /Proposals/Create
 
-        public ActionResult Create()
+        // Creates Proposal Form based on an existing Show
+        public ActionResult Create(string id)
         {
+            if ( id != null )
+            {
+                Show show = ShowService.GetShowByName(id);
+                if (show != null)
+                {
+                    return View(show);
+                }
+            }
             return View();
-        } 
+        }
 
         //
         // POST: /Proposals/Create
 
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(Show show)
         {
             try
             {
-                // TODO: Add insert logic here
+                User user = UserRepo.GetByUsername(User.Identity.Name);
 
+                ProposalService.AddProposal(show, user);
                 return RedirectToAction("Index");
             }
             catch
@@ -76,30 +106,41 @@ namespace FollowMyTv.WebApp.Controllers
             }
         }
 
+        [Authorize(Roles = FollowMyTvRoles.ADMINISTRATOR)]
+        public ActionResult Accept(int id)
+        {
+            
+        }
+
+        [Authorize]
+        public ActionResult Reject( int id )
+        {
+
+        }
         //
         // GET: /Proposals/Delete/5
  
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
+        //public ActionResult Delete(int id)
+        //{
+        //    return View();
+        //}
 
         //
         // POST: /Proposals/Delete/5
 
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
+        //[HttpPost]
+        //public ActionResult Delete(int id, FormCollection collection)
+        //{
+        //    try
+        //    {
+        //        // TODO: Add delete logic here
  
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        //        return RedirectToAction("Index");
+        //    }
+        //    catch
+        //    {
+        //        return View();
+        //    }
+        //}
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
-using System.Text;
+using System.Collections.Generic;
+using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -20,6 +21,35 @@ namespace FollowMyTv.WebApp.Controllers
         {
             Repo = repository;
             userRepo = userRepository;
+        }
+
+        [Authorize(Roles = FollowMyTvRoles.ADMINISTRATOR)]
+        public ActionResult Index()
+        {
+            IEnumerable<User> users = userRepo.GetAllUsers();
+            return View(users);
+        }
+
+        [Authorize( Roles = FollowMyTvRoles.ADMINISTRATOR )]
+        public ActionResult Suspend(string id)
+        {
+            User user = userRepo.GetByUsername(id);
+            if( !user.IsSuspended )
+            {
+                user.IsSuspended = true;
+            }
+            return RedirectToAction( "Index" );
+        }
+
+        [Authorize( Roles = FollowMyTvRoles.ADMINISTRATOR )]
+        public ActionResult Unsuspend(string id)
+        {
+            User user = userRepo.GetByUsername(id);
+            if( user.IsSuspended )
+            {
+                user.IsSuspended = false;
+            }
+            return RedirectToAction("Index");
         }
 
         //
@@ -47,6 +77,12 @@ namespace FollowMyTv.WebApp.Controllers
                         return View(model);
                     }
 
+                    if( user.IsSuspended )
+                    {
+                        ModelState.AddModelError("", "This user is suspended.");
+                        return View(model);
+                    }
+
                     PIAuthenticationConfiguration config = PIAuthenticationConfiguration.Current;
 
 
@@ -59,7 +95,6 @@ namespace FollowMyTv.WebApp.Controllers
                                                                                      , ""
                                                                                      , "/"
                                                                                      );
-
 
                     HttpCookie cookie = new HttpCookie(config.CookieName, FormsAuthentication.Encrypt(ticket));
                     Response.SetCookie(cookie);
@@ -117,8 +152,11 @@ namespace FollowMyTv.WebApp.Controllers
                 // Attempt to register the user
                 if ( userRepo.CreateUser(model.UserName, model.Password, model.Email, Role.AuthUser) )
                 {
-                    Guid guid = new Guid();
-                    Activation activation = new Activation() { Id = guid, };
+                    Guid guid = Guid.NewGuid();
+                    Activation activation = new Activation { Id = guid, Username = model.UserName };
+                    Repo.Add(activation);
+                    // TODO: SEND EMAIL
+                    System.Diagnostics.Debug.WriteLine("Guid: {0}", guid);
                     return RedirectToAction("Index", "Home");
                 }
                 ModelState.AddModelError("", ErrorCodeToString(MembershipCreateStatus.UserRejected));
@@ -131,9 +169,27 @@ namespace FollowMyTv.WebApp.Controllers
             return View(model);
         }
 
+        public ActionResult Activation(string id)
+        {
+            Guid guid = new Guid(id);
+            Activation activation = Repo.GetById(guid);
+            if ( activation != null )
+            {
+                if ( !activation.IsUsed )
+                {
+                    bool result = userRepo.ActivateUser( activation.Username );
+                    if ( result )
+                    {
+                        return RedirectToAction("LogOn");
+                    }
+                }
+            }
+            
+            return View("Error");
+        }        
+        
         //
         // GET: /Account/ChangePassword
-
         [Authorize]
         public ActionResult ChangePassword()
         {
@@ -181,6 +237,11 @@ namespace FollowMyTv.WebApp.Controllers
             EditModel model = new EditModel {Email = user.Email, Role = roles[0], UserName = user.UserName};
 
             return View();
+        }
+
+        internal MailMessage GetRegisterMailMessage(string username, string email)
+        {
+            return null;
         }
 
         #region Status Codes
