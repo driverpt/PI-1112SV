@@ -1,16 +1,27 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.Routing;
 using System.Web.Security;
+using FollowMyTv.DomainLayer;
+using FollowMyTv.DomainLayer.Repository;
 using FollowMyTv.WebApp.Models;
+using Microsoft.Practices.Unity;
 
 namespace FollowMyTv.WebApp.Controllers
 {
     public class AccountController : Controller
     {
+        private readonly IRepository<Activation, Guid> Repo;
+        private readonly IUserRepository userRepo;
+
+        [InjectionConstructor]
+        public AccountController( [Dependency] IRepository<Activation, Guid> repository, [Dependency] IUserRepository userRepository)
+        {
+            Repo = repository;
+            userRepo = userRepository;
+        }
+
         //
         // GET: /Account/LogOn
 
@@ -27,23 +38,43 @@ namespace FollowMyTv.WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (Membership.ValidateUser(model.UserName, model.Password))
+                User user;
+                if ( userRepo.TryAuthenticate(model.UserName, model.Password, out user) )
                 {
-                    FormsAuthentication.SetAuthCookie(model.UserName, model.RememberMe);
+                    if( !user.IsActivated )
+                    {
+                        ModelState.AddModelError("", "The user is not active.");
+                        return View(model);
+                    }
+
+                    PIAuthenticationConfiguration config = PIAuthenticationConfiguration.Current;
+
+
+                    FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(  1
+                                                                                     , user.Identity.Name
+                                                                                     , DateTime.Now
+                                                                                     , DateTime.Now.AddYears(
+                                                                                         config.CookieExpiration)
+                                                                                     , model.RememberMe
+                                                                                     , ""
+                                                                                     , "/"
+                                                                                     );
+
+
+                    HttpCookie cookie = new HttpCookie(config.CookieName, FormsAuthentication.Encrypt(ticket));
+                    Response.SetCookie(cookie);
+
                     if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
                         && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
                     {
                         return Redirect(returnUrl);
                     }
-                    else
-                    {
-                        return RedirectToAction("Index", "Home");
-                    }
+
+                    return RedirectToAction("Index", "Home");
                 }
-                else
-                {
-                    ModelState.AddModelError("", "The user name or password provided is incorrect.");
-                }
+
+
+                ModelState.AddModelError("", "The user name or password provided is incorrect.");
             }
 
             // If we got this far, something failed, redisplay form
@@ -52,11 +83,18 @@ namespace FollowMyTv.WebApp.Controllers
 
         //
         // GET: /Account/LogOff
-
+        [Authorize]
         public ActionResult LogOff()
         {
-            FormsAuthentication.SignOut();
-
+            PIAuthenticationConfiguration config = PIAuthenticationConfiguration.Current;
+            HttpCookie cookie = Request.Cookies[config.CookieName];
+            if( cookie != null )
+            {
+                cookie.Expires = DateTime.Now.AddYears(-1);
+                Response.SetCookie( cookie );
+            }
+            
+            //FormsAuthentication.SignOut();
             return RedirectToAction("Index", "Home");
         }
 
@@ -77,21 +115,19 @@ namespace FollowMyTv.WebApp.Controllers
             if (ModelState.IsValid)
             {
                 // Attempt to register the user
-                MembershipCreateStatus createStatus;
-                Membership.CreateUser(model.UserName, model.Password, model.Email, null, null, true, null, out createStatus);
-
-                if (createStatus == MembershipCreateStatus.Success)
+                if ( userRepo.CreateUser(model.UserName, model.Password, model.Email, Role.AuthUser) )
                 {
-                    FormsAuthentication.SetAuthCookie(model.UserName, false /* createPersistentCookie */);
+                    Guid guid = new Guid();
+                    Activation activation = new Activation() { Id = guid, };
                     return RedirectToAction("Index", "Home");
                 }
-                else
-                {
-                    ModelState.AddModelError("", ErrorCodeToString(createStatus));
-                }
+                ModelState.AddModelError("", ErrorCodeToString(MembershipCreateStatus.UserRejected));
+
+                // If we got this far, something failed, redisplay form
+                return View(model);
             }
 
-            // If we got this far, something failed, redisplay form
+            
             return View(model);
         }
 
@@ -113,28 +149,12 @@ namespace FollowMyTv.WebApp.Controllers
         {
             if (ModelState.IsValid)
             {
-
-                // ChangePassword will throw an exception rather
-                // than return false in certain failure scenarios.
-                bool changePasswordSucceeded;
-                try
-                {
-                    MembershipUser currentUser = Membership.GetUser(User.Identity.Name, true /* userIsOnline */);
-                    changePasswordSucceeded = currentUser.ChangePassword(model.OldPassword, model.NewPassword);
-                }
-                catch (Exception)
-                {
-                    changePasswordSucceeded = false;
-                }
-
-                if (changePasswordSucceeded)
+                if ( userRepo.ChangePassword(User.Identity.Name, model.NewPassword) )
                 {
                     return RedirectToAction("ChangePasswordSuccess");
                 }
-                else
-                {
-                    ModelState.AddModelError("", "The current password is incorrect or the new password is invalid.");
-                }
+
+                ModelState.AddModelError("", "The current password is incorrect or the new password is invalid.");
             }
 
             // If we got this far, something failed, redisplay form
@@ -146,6 +166,20 @@ namespace FollowMyTv.WebApp.Controllers
 
         public ActionResult ChangePasswordSuccess()
         {
+            return View();
+        }
+
+        [Authorize]
+        public ActionResult Edit(string id)
+        {
+            if( id == null )
+            {
+                
+            }
+            MembershipUser user = Membership.GetUser(id);
+            string[] roles = Roles.GetRolesForUser(id);
+            EditModel model = new EditModel {Email = user.Email, Role = roles[0], UserName = user.UserName};
+
             return View();
         }
 

@@ -52,7 +52,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Activation.cs" />
     <Compile Include="Episode.cs" />
+    <Compile Include="FollowMyTvRoles.cs" />
     <Compile Include="Interfaces\IDomainModel.cs" />
     <Compile Include="Permission.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

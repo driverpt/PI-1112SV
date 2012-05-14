@@ -4,8 +4,8 @@ namespace FollowMyTv.DomainLayer
 {
     public class Role
     {
-        public static Role Administrator = new Role("Administrator");
-        public static Role AuthUser      = new Role("AuthUser");
+        public static Role Administrator = new Role(FollowMyTvRoles.ADMINISTRATOR);
+        public static Role AuthUser      = new Role(FollowMyTvRoles.AUTH_USER);
 
         private readonly string _name;
 

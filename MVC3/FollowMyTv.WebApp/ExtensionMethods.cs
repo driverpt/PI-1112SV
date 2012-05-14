@@ -23,7 +23,7 @@ namespace FollowMyTv.WebApp
             return !principal.Identity.IsAuthenticated;
         }
 
-        public static MvcHtmlString ShowActionsForCurrentUser( this HtmlHelper helper, Show s )
+        public static MvcHtmlString ShowShowsActionsForCurrentUser( this HtmlHelper helper, Show s )
         {
             return helper.Partial("Showactions", s);
         }

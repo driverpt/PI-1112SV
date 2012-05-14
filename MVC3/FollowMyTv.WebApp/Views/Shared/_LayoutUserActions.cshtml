@@ -1,0 +1,14 @@
+﻿@using FollowMyTv.WebApp;
+
+<li>@Html.ActionLink("Home", "Index", "Home")</li>
+<li>@Html.ActionLink("Shows", "Index", "Shows")</li>
+<li>@Html.ActionLink("Proposals", "Index", "Home")</li>
+
+@if (User.IsAuthenticatedUser())
+{
+<li>@Html.ActionLink("Proposals", "Index", "Proposals")</li>
+}
+@if (User.IsAdministrator())
+{
+<li>@Html.ActionLink("Administration", "Index", "Admin")</li>
+}

@@ -39,6 +39,8 @@ namespace FollowMyTv.WebApp
 
             container.RegisterType<IRepository<Show, string>, ShowMemoryRepository>();
             container.RegisterType<IRepository<Proposal, int>, ProposalMemoryRepository>();
+            container.RegisterType<IRepository<Activation, Guid>, GuidActivationMemoryRepository>();
+            container.RegisterType<IUserRepository, UserMemoryRepository>();
 
             container.RegisterType<ShowService>();
             container.RegisterType<ProposalService>();
@@ -52,21 +54,27 @@ namespace FollowMyTv.WebApp
              * Init Roles
              *
              */
-            if ( Roles.GetAllRoles().Length == 0)
-            {
-                Roles.CreateRole( FollowMyTvRoles.ADMINISTRATOR );
-                Roles.CreateRole( FollowMyTvRoles.AUTH_USER );
-            }
+            IUserRepository userRepo = DependencyResolver.Current.GetService<IUserRepository>();
+            userRepo.CreateUser("admin", "admin", "admin@pi.isel", Role.Administrator);
+            userRepo.ActivateUser("admin");
+            userRepo.CreateUser("user", "user", "user@pi.isel", Role.AuthUser);
+            userRepo.ActivateUser("user");
 
-            if( Membership.FindUsersByName("administrator").Count == 0 )
-            {
-                MembershipCreateStatus status;
-                Membership.CreateUser( "administrator", "administrator", "admin@isel-leic-pi", "Question", "Answer", true, out status );
-                Console.WriteLine( status );
-                Roles.AddUserToRole("administrator", FollowMyTvRoles.ADMINISTRATOR );
-            }
+            //if ( Roles.GetAllRoles().Length == 0)
+            //{
+            //    Roles.CreateRole( FollowMyTvRoles.ADMINISTRATOR );
+            //    Roles.CreateRole( FollowMyTvRoles.AUTH_USER );
+            //}
 
-            
+            //if( Membership.FindUsersByName("administrator").Count == 0 )
+            //{
+            //    MembershipCreateStatus status;
+            //    Membership.CreateUser( "administrator", "administrator", "admin@isel-leic-pi", "Question", "Answer", true, out status );
+            //    Console.WriteLine( status );
+            //    Roles.AddUserToRole("administrator", FollowMyTvRoles.ADMINISTRATOR );
+            //}
+
+
         }
 
         protected void Application_Start()

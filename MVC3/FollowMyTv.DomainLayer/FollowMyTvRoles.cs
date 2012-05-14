@@ -1,4 +1,4 @@
-namespace FollowMyTv.WebApp
+namespace FollowMyTv.DomainLayer
 {
     public sealed class FollowMyTvRoles
     {

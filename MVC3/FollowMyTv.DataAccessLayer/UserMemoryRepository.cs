@@ -8,7 +8,7 @@ namespace FollowMyTv.DataAccessLayer
     {
         private static readonly IDictionary<string, User> Repo = new Dictionary<string, User>(); 
 
-        protected UserMemoryRepository() : base(Repo){}
+        public UserMemoryRepository() : base(Repo){}
 
         public User Authenticate(string username, string password)
         {
@@ -26,6 +26,50 @@ namespace FollowMyTv.DataAccessLayer
         public User GetByUsername(string username)
         {
             return GetById(username);
+        }
+        
+        public bool CreateUser(string username, string password, string email, Role role)
+        {
+            if ( Repo.ContainsKey(username))
+            {
+                return false;
+            }
+
+            User user = new User(username, password, email, role);
+            Add(user);
+            return true;
+        }
+
+        public bool ActivateUser(string username)
+        {
+            User user = GetByUsername(username);
+            if ( user.IsActivated )
+            {
+                return false;
+            }
+            user.IsActivated = true;
+            return true;
+        }
+
+        public bool SetUserRole(string username, Role role)
+        {
+            User user = GetByUsername(username);
+
+            if ( user.Role.Equals(role) )
+            {
+                return false;
+            }
+
+            User newUser = new User(username, user.Password, user.Email, role);
+            Repo[username] = newUser;
+            return true;
+        }
+
+        public bool ChangePassword(string username, string newPassword)
+        {
+            User user = GetByUsername(username);
+            user.Password = newPassword;
+            return true;
         }
     }
 }

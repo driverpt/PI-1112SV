@@ -6,10 +6,11 @@ namespace FollowMyTv.DomainLayer
 {
     public class User : GenericPrincipal, IDomainModel<string>
     {
-        public User(string username, string password, Role role) : base(new GenericIdentity(username), Role.GetContainedRoles(role) )
+        public User(string username, string password, string email, Role role) : base(new GenericIdentity(username), Role.GetContainedRoles(role) )
         {
             Password = password;
             Role = role;
+            Email = email;
         }
 
         public Role Role { get; private set; }
@@ -21,6 +22,8 @@ namespace FollowMyTv.DomainLayer
             get { return Identity.Name; }
             set { throw new InvalidOperationException("Setter Not Allowed"); }
         }
-        
+
+        public bool IsActivated { get; set; }
+        public string Email { get; set; }
     }
 }
