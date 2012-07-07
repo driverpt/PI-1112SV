@@ -1,50 +1,45 @@
 ﻿@using FollowMyTv.DomainLayer
 @model FollowMyTv.DomainLayer.Show
-
 @{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h2>Create</h2>
-
-<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
-<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
-
-@using (Html.BeginForm()) {
-    @Html.ValidationSummary(true)
+<h2>
+    Create</h2>
+<script src="@Url.Content( "~/Scripts/jquery.validate.min.js" )" type="text/javascript"></script>
+<script src="@Url.Content( "~/Scripts/jquery.validate.unobtrusive.min.js" )" type="text/javascript"></script>
+@using ( Html.BeginForm() )
+{
+    @Html.ValidationSummary( true )
     <fieldset>
         <legend>Show</legend>
-
         <div class="editor-label">
-            @Html.LabelFor(model => model.Name)
+            @Html.LabelFor( model => model.Name )
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.Name)
-            @Html.ValidationMessageFor(model => model.Name)
+            @Html.EditorFor( model => model.Name )
+            @Html.ValidationMessageFor( model => model.Name )
         </div>
-
         <div class="editor-label">
-            @Html.LabelFor(model => model.Description)
+            @Html.LabelFor( model => model.Description )
         </div>
         <div class="editor-field">
-            @Html.EditorFor(model => model.Description)
-            @Html.ValidationMessageFor(model => model.Description)
+            @Html.EditorFor( model => model.Description )
+            @Html.ValidationMessageFor( model => model.Description )
         </div>
-        
-        @for ( int i = 0 ; i < Model.Seasons.Count ; ++i )
+        @if ( Model != null )
         {
+            for ( int i = 0 ; i < Model.Seasons.Count ; ++i )
+            {
             <fieldset>
                 <legend>Season</legend>
-
                 <div class="editor-label">
-                    @Html.LabelFor(model => model.Seasons[i].Number)
+                    @Html.LabelFor( model => model.Seasons[i].Number )
                 </div>
                 <div class="editor-field">
                     @Html.EditorFor( model => model.Seasons[i].Number )
                     @Html.ValidationMessageFor( model => model.Seasons[i].Number )
                 </div>
-
                 <div class="editor-label">
                     @Html.LabelFor( model => model.Seasons[i].Name )
                 </div>
@@ -52,7 +47,6 @@
                     @Html.EditorFor( model => model.Seasons[i].Name )
                     @Html.ValidationMessageFor( model => model.Seasons[i].Name )
                 </div>
-
                 <div class="editor-label">
                     @Html.LabelFor( model => model.Seasons[i].Debut )
                 </div>
@@ -60,7 +54,6 @@
                     @Html.EditorFor( model => model.Seasons[i].Debut )
                     @Html.ValidationMessageFor( model => model.Seasons[i].Debut )
                 </div>
-
                 <div class="editor-label">
                     @Html.LabelFor( model => model.Seasons[i].Finale )
                 </div>
@@ -68,12 +61,10 @@
                     @Html.EditorFor( model => model.Seasons[i].Finale )
                     @Html.ValidationMessageFor( model => model.Seasons[i].Finale )
                 </div>
-            
-                @for( int j = 0; j < Model.Seasons[i].Episodes.Count; ++j )
-                {            
+                @for ( int j = 0 ; j < Model.Seasons[i].Episodes.Count ; ++j )
+                {
                     <fieldset>
                         <legend>Episode</legend>
-
                         <div class="editor-label">
                             @Html.LabelFor( model => Model.Seasons[i].Episodes[j].Number )
                         </div>
@@ -81,7 +72,6 @@
                             @Html.EditorFor( model => Model.Seasons[i].Episodes[j].Number )
                             @Html.ValidationMessageFor( model => Model.Seasons[i].Episodes[j].Number )
                         </div>
-
                         <div class="editor-label">
                             @Html.LabelFor( model => Model.Seasons[i].Episodes[j].Title )
                         </div>
@@ -89,7 +79,6 @@
                             @Html.EditorFor( model => Model.Seasons[i].Episodes[j].Title )
                             @Html.ValidationMessageFor( model => Model.Seasons[i].Episodes[j].Title )
                         </div>
-
                         <div class="editor-label">
                             @Html.LabelFor( model => Model.Seasons[i].Episodes[j].Duration )
                         </div>
@@ -97,7 +86,6 @@
                             @Html.EditorFor( model => Model.Seasons[i].Episodes[j].Duration )
                             @Html.ValidationMessageFor( model => Model.Seasons[i].Episodes[j].Duration )
                         </div>
-
                         <div class="editor-label">
                             @Html.LabelFor( model => Model.Seasons[i].Episodes[j].Synopsis )
                         </div>
@@ -105,7 +93,6 @@
                             @Html.EditorFor( model => Model.Seasons[i].Episodes[j].Synopsis )
                             @Html.ValidationMessageFor( model => Model.Seasons[i].Episodes[j].Synopsis )
                         </div>
-
                         <div class="editor-label">
                             @Html.LabelFor( model => Model.Seasons[i].Episodes[j].Score )
                         </div>
@@ -115,15 +102,15 @@
                         </div>
                     </fieldset>
                 }
+                }
             </fieldset>
+            }
         }
-        
         <p>
             <input type="submit" value="Create" />
         </p>
     </fieldset>
 }
-
 <div>
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink( "Back to List", "Index" )
 </div>

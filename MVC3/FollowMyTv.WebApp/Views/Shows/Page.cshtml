@@ -1,0 +1,20 @@
+﻿@using FollowMyTv.WebApp
+@model IEnumerable<FollowMyTv.DomainLayer.Show>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section IncludeScripts
+{
+    <script type="text/javascript" src="@Url.Content( "/Scripts/Paging.js" )"></script>
+}
+<h2>
+    Index</h2>
+<p>
+    @if ( User.IsAdministrator() )
+    {
+        @Html.ActionLink( "Create New", "Create" )
+    }
+    @Html.ActionLink( "No Pages", "Index", new { noPages = true } )
+</p>
+@Html.Partial( "_IndexPaged", Model )

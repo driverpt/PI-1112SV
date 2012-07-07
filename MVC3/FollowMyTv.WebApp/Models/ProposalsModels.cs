@@ -2,10 +2,9 @@
 
 namespace FollowMyTv.WebApp.Models
 {
-    public class ProposalsAddModel
+    public class ProposalModel : ShowModel
     {
         [Required]
-        [Display(Name="Show Name")]
-        public string ShowName;
+        public int ProposalId;
     }
 }

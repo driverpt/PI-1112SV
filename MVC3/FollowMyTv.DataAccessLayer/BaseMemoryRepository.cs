@@ -22,7 +22,7 @@ namespace FollowMyTv.DataAccessLayer
         public T GetById(K id)
         {
             T obj = default(T);
-            _repo.TryGetValue(id, out obj);
+             _repo.TryGetValue(id, out obj);
             return obj;
         }
 

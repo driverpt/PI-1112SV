@@ -12,19 +12,43 @@ using Unity.Mvc3;
 
 namespace FollowMyTv.WebApp
 {
-    // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
+    // Note: For instructions on enabling IIS6 or IIS7 classic mode,
     // visit http://go.microsoft.com/?LinkId=9394801
 
     public class MvcApplication : HttpApplication
     {
-        public static void RegisterGlobalFilters(GlobalFilterCollection filters)
+        public static void RegisterGlobalFilters( GlobalFilterCollection filters )
         {
-            filters.Add(new HandleErrorAttribute());
+            filters.Add( new HandleErrorAttribute() );
         }
 
-        public static void RegisterRoutes(RouteCollection routes)
+        public static void RegisterRoutes( RouteCollection routes )
         {
-            routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+            routes.IgnoreRoute( "{resource}.axd/{*pathInfo}" );
+
+            routes.MapRoute(
+                            "Paging", // Route name
+                            "{controller}/Page/{pageNumber}", // URL with parameters
+                            new { controller = "Show", action = "Page", pageNumber = UrlParameter.Optional } // Parameter defaults
+                        );
+
+            //routes.MapRoute(
+            //    "List", // Route name
+            //    "{controller}/{show}/{season}/{episode}", // URL with parameters
+            //    new { controller = "Show", action = "Index", season = UrlParameter.Optional, episode = UrlParameter.Optional, routes } // Parameter defaults
+            //);
+
+            //routes.MapRoute(
+            //    "Episodes", // Route name
+            //    "{controller}/{action}/Shows/{show}/Episodes/{season}", // URL with parameters
+            //    new { controller = "Shows", action = "Index", season = UrlParameter.Optional } // Parameter defaults
+            //);
+
+            routes.MapRoute(
+                "Shows", // Route name
+                "{controller}/{action}/{show}/{season}/{episode}", // URL with parameters
+                new { controller = "Shows", action = "Index", season = UrlParameter.Optional, episode = UrlParameter.Optional } // Parameter defaults
+            );
 
             routes.MapRoute(
                 "Default", // Route name
@@ -40,7 +64,7 @@ namespace FollowMyTv.WebApp
             container.RegisterType<IRepository<Show, string>, ShowMemoryRepository>();
             container.RegisterType<IRepository<Proposal, int>, ProposalMemoryRepository>();
             container.RegisterType<IRepository<Activation, Guid>, GuidActivationMemoryRepository>();
-            container.RegisterType<IUserRepository, UserMemoryRepository>();
+            container.RegisterType<IUserRepository, UserMemoryRepository>( new ContainerControlledLifetimeManager() );
 
             container.RegisterType<ShowService>();
             container.RegisterType<ProposalService>();
@@ -55,10 +79,10 @@ namespace FollowMyTv.WebApp
              *
              */
             IUserRepository userRepo = DependencyResolver.Current.GetService<IUserRepository>();
-            userRepo.CreateUser("admin", "admin", "admin@pi.isel", Role.Administrator);
-            userRepo.ActivateUser("admin");
-            userRepo.CreateUser("user", "user", "user@pi.isel", Role.AuthUser);
-            userRepo.ActivateUser("user");
+            userRepo.CreateUser( "admin", "admin", "admin@pi.isel", Role.Administrator );
+            userRepo.ActivateUser( "admin" );
+            userRepo.CreateUser( "user", "user", "user@pi.isel", Role.AuthUser );
+            userRepo.ActivateUser( "user" );
 
             //if ( Roles.GetAllRoles().Length == 0)
             //{
@@ -73,18 +97,16 @@ namespace FollowMyTv.WebApp
             //    Console.WriteLine( status );
             //    Roles.AddUserToRole("administrator", FollowMyTvRoles.ADMINISTRATOR );
             //}
-
-
         }
 
         protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
 
-            RegisterGlobalFilters(GlobalFilters.Filters);
-            RegisterRoutes(RouteTable.Routes);
+            RegisterGlobalFilters( GlobalFilters.Filters );
+            RegisterRoutes( RouteTable.Routes );
 
-            DependencyResolver.SetResolver(new UnityDependencyResolver(ConfigureDependencies()));
+            DependencyResolver.SetResolver( new UnityDependencyResolver( ConfigureDependencies() ) );
 
             LoadInitialData();
         }

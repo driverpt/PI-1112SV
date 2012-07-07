@@ -1,0 +1,33 @@
+﻿@model FollowMyTv.DomainLayer.Season
+@{
+    ViewBag.Title = "Season Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>@ViewBag.ShowTitle Season @ViewBag.SeasonNumber Details</h2>
+<fieldset>
+    <legend>Season</legend>
+    <div class="display-label">
+        Number</div>
+    <div class="display-field">
+        @Html.DisplayFor( model => model.Number )
+    </div>
+    <div class="display-label">
+        Name</div>
+    <div class="display-field">
+        @Html.DisplayFor( model => model.Name )
+    </div>
+    <div class="display-label">
+        Debut</div>
+    <div class="display-field">
+        @Html.DisplayFor( model => model.Debut )
+    </div>
+    <div class="display-label">
+        Finale</div>
+    <div class="display-field">
+        @Html.DisplayFor( model => model.Finale )
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink( "Edit", "Edit", new { /* id=Model.PrimaryKey */ } ) |
+    @Html.ActionLink( "Back to List", "Index" )
+</p>

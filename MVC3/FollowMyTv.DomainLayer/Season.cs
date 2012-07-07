@@ -11,9 +11,13 @@ namespace FollowMyTv.DomainLayer
         }
 
         public int Number { get; set; }
+
         public string Name { get; set; }
-        public DateTime Debut { get; set; }
-        public DateTime Finale { get; set; }
+
+        public DateTime? Debut { get; set; }
+
+        public DateTime? Finale { get; set; }
+
         public List<Episode> Episodes { get; set; }
     }
 }

@@ -1,0 +1,62 @@
+﻿@using System.Web.UI.WebControls
+@model IEnumerable<FollowMyTv.DomainLayer.Show>
+<div id="paging_content">
+    @foreach ( var item in Model )
+    {
+        <div class="show_info">
+            <div class="show_avatar">
+                @Html.ActionLink( "Details", "Details", new { id = item.Name } )
+                <img src="@Url.Content( "/Content/no_image.png" )" />
+            </div>
+            <div class="show_name">
+                <h3>
+                    @Html.DisplayFor( modelItem => item.Name )
+                </h3>
+            </div>
+            <div class="show_actions">
+                @Html.ActionLink( "Edit", "Edit", new { id = item.Name } )
+                @Html.ActionLink( "Details", "Details", new { id = item.Name } )
+                @Html.ActionLink( "Delete", "Delete", new { id = item.Name } )
+                @Html.ActionLink( "Seasons", "List", new { show = item.Name } )
+            </div>
+        </div>
+    }
+    @Html.Partial( "_PagingActions" )
+</div>
+@*<div id="paging_content">
+    <table>
+        <thead>
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Description
+                </th>
+                <th>
+                    Actions
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ( var item in Model )
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor( modelItem => item.Name )
+                    </td>
+                    <td>
+                        @Html.DisplayFor( modelItem => item.Description )
+                    </td>
+                    <td>
+                        @Html.ActionLink( "Edit", "Edit", new { id = item.Name } ) |
+                        @Html.ActionLink( "Details", "Details", new { id = item.Name } ) |
+                        @Html.ActionLink( "Delete", "Delete", new { id = item.Name } ) |
+                        @Html.ActionLink( "Seasons", "List", new { show = item.Name } )
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+@Html.Partial( "_PagingActions" )
+</div>*@

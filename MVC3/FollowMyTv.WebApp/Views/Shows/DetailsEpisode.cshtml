@@ -1,0 +1,41 @@
+﻿@model FollowMyTv.DomainLayer.Episode
+
+@{
+    ViewBag.Title = "Episode Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Episode Details</h2>
+
+<fieldset>
+    <legend>Episode</legend>
+
+    <div class="display-label">Number</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Number)
+    </div>
+
+    <div class="display-label">Title</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Title)
+    </div>
+
+    <div class="display-label">Duration</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Duration)
+    </div>
+
+    <div class="display-label">Synopsis</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Synopsis)
+    </div>
+
+    <div class="display-label">Score</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Score)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id=Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

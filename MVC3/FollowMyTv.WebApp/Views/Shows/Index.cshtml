@@ -1,18 +1,13 @@
-﻿@using FollowMyTv.WebApp
-@model IEnumerable<FollowMyTv.DomainLayer.Show>
-
+﻿@model IEnumerable<FollowMyTv.DomainLayer.Show>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h2>Index</h2>
-
+<h2>
+    Index</h2>
 <p>
-    @if ( User.IsAdministrator() )
-    {
-        @Html.ActionLink( "Create New", "Create" )
-    }
+    @Html.ActionLink( "Create New", "Create" )
+    @Html.ActionLink( "Paged Version", "Index" )
 </p>
 <table>
     <tr>
@@ -23,22 +18,23 @@
             Description
         </th>
         <th>
-            
         </th>
     </tr>
-
-@foreach ( var item in Model )
-{
-    <tr>
-        <td>
-            @Html.DisplayFor( modelItem => item.Name )
-        </td>
-        <td>
-            @Html.DisplayFor( modelItem => item.Description )
-        </td>
-        <td>
-            <span>@Html.Partial( "Showactions", item )</span>
-        </td>
-    </tr>
-}
+    @foreach ( var item in Model )
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor( modelItem => item.Name )
+            </td>
+            <td>
+                @Html.DisplayFor( modelItem => item.Description )
+            </td>
+            <td>
+                @Html.ActionLink( "Edit", "Edit", new { id = item.Id } )
+                @Html.ActionLink( "Details", "Details", new { id = item.Id } )
+                @Html.ActionLink( "Delete", "Delete", new { id = item.Id } )
+                @Html.ActionLink( "Seasons", "List", new { show = item.Id } )
+            </td>
+        </tr>
+    }
 </table>

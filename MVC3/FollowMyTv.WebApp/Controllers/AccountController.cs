@@ -17,24 +17,24 @@ namespace FollowMyTv.WebApp.Controllers
         private readonly IUserRepository userRepo;
 
         [InjectionConstructor]
-        public AccountController( [Dependency] IRepository<Activation, Guid> repository, [Dependency] IUserRepository userRepository)
+        public AccountController( [Dependency] IRepository<Activation, Guid> repository, [Dependency] IUserRepository userRepository )
         {
             Repo = repository;
             userRepo = userRepository;
         }
 
-        [Authorize(Roles = FollowMyTvRoles.ADMINISTRATOR)]
+        [Authorize( Roles = FollowMyTvRoles.ADMINISTRATOR )]
         public ActionResult Index()
         {
             IEnumerable<User> users = userRepo.GetAllUsers();
-            return View(users);
+            return View( users );
         }
 
         [Authorize( Roles = FollowMyTvRoles.ADMINISTRATOR )]
-        public ActionResult Suspend(string id)
+        public ActionResult Suspend( string id )
         {
-            User user = userRepo.GetByUsername(id);
-            if( !user.IsSuspended )
+            User user = userRepo.GetByUsername( id );
+            if ( !user.IsSuspended )
             {
                 user.IsSuspended = true;
             }
@@ -42,14 +42,14 @@ namespace FollowMyTv.WebApp.Controllers
         }
 
         [Authorize( Roles = FollowMyTvRoles.ADMINISTRATOR )]
-        public ActionResult Unsuspend(string id)
+        public ActionResult Unsuspend( string id )
         {
-            User user = userRepo.GetByUsername(id);
-            if( user.IsSuspended )
+            User user = userRepo.GetByUsername( id );
+            if ( user.IsSuspended )
             {
                 user.IsSuspended = false;
             }
-            return RedirectToAction("Index");
+            return RedirectToAction( "Index" );
         }
 
         //
@@ -64,56 +64,54 @@ namespace FollowMyTv.WebApp.Controllers
         // POST: /Account/LogOn
 
         [HttpPost]
-        public ActionResult LogOn(LogOnModel model, string returnUrl)
+        public ActionResult LogOn( LogOnModel model, string returnUrl )
         {
-            if (ModelState.IsValid)
+            if ( ModelState.IsValid )
             {
                 User user;
-                if ( userRepo.TryAuthenticate(model.UserName, model.Password, out user) )
+                if ( userRepo.TryAuthenticate( model.UserName, model.Password, out user ) )
                 {
-                    if( !user.IsActivated )
+                    if ( !user.IsActivated )
                     {
-                        ModelState.AddModelError("", "The user is not active.");
-                        return View(model);
+                        ModelState.AddModelError( "", "The user is not active." );
+                        return View( model );
                     }
 
-                    if( user.IsSuspended )
+                    if ( user.IsSuspended )
                     {
-                        ModelState.AddModelError("", "This user is suspended.");
-                        return View(model);
+                        ModelState.AddModelError( "", "This user is suspended." );
+                        return View( model );
                     }
 
                     PIAuthenticationConfiguration config = PIAuthenticationConfiguration.Current;
 
-
-                    FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(  1
+                    FormsAuthenticationTicket ticket = new FormsAuthenticationTicket( 1
                                                                                      , user.Identity.Name
                                                                                      , DateTime.Now
                                                                                      , DateTime.Now.AddYears(
-                                                                                         config.CookieExpiration)
+                                                                                         config.CookieExpiration )
                                                                                      , model.RememberMe
                                                                                      , ""
                                                                                      , "/"
                                                                                      );
 
-                    HttpCookie cookie = new HttpCookie(config.CookieName, FormsAuthentication.Encrypt(ticket));
-                    Response.SetCookie(cookie);
+                    HttpCookie cookie = new HttpCookie( config.CookieName, FormsAuthentication.Encrypt( ticket ) );
+                    Response.SetCookie( cookie );
 
-                    if (Url.IsLocalUrl(returnUrl) && returnUrl.Length > 1 && returnUrl.StartsWith("/")
-                        && !returnUrl.StartsWith("//") && !returnUrl.StartsWith("/\\"))
+                    if ( Url.IsLocalUrl( returnUrl ) && returnUrl.Length > 1 && returnUrl.StartsWith( "/" )
+                        && !returnUrl.StartsWith( "//" ) && !returnUrl.StartsWith( "/\\" ) )
                     {
-                        return Redirect(returnUrl);
+                        return Redirect( returnUrl );
                     }
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction( "Index", "Home" );
                 }
 
-
-                ModelState.AddModelError("", "The user name or password provided is incorrect.");
+                ModelState.AddModelError( "", "The user name or password provided is incorrect." );
             }
 
             // If we got this far, something failed, redisplay form
-            return View(model);
+            return View( model );
         }
 
         //
@@ -123,14 +121,14 @@ namespace FollowMyTv.WebApp.Controllers
         {
             PIAuthenticationConfiguration config = PIAuthenticationConfiguration.Current;
             HttpCookie cookie = Request.Cookies[config.CookieName];
-            if( cookie != null )
+            if ( cookie != null )
             {
-                cookie.Expires = DateTime.Now.AddYears(-1);
+                cookie.Expires = DateTime.Now.AddYears( -1 );
                 Response.SetCookie( cookie );
             }
-            
+
             //FormsAuthentication.SignOut();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction( "Index", "Home" );
         }
 
         //
@@ -145,34 +143,33 @@ namespace FollowMyTv.WebApp.Controllers
         // POST: /Account/Register
 
         [HttpPost]
-        public ActionResult Register(RegisterModel model)
+        public ActionResult Register( RegisterModel model )
         {
-            if (ModelState.IsValid)
+            if ( ModelState.IsValid )
             {
                 // Attempt to register the user
-                if ( userRepo.CreateUser(model.UserName, model.Password, model.Email, Role.AuthUser) )
+                if ( userRepo.CreateUser( model.UserName, model.Password, model.Email, Role.AuthUser ) )
                 {
                     Guid guid = Guid.NewGuid();
                     Activation activation = new Activation { Id = guid, Username = model.UserName };
-                    Repo.Add(activation);
+                    Repo.Add( activation );
                     // TODO: SEND EMAIL
-                    System.Diagnostics.Debug.WriteLine("Guid: {0}", guid);
-                    return RedirectToAction("Index", "Home");
+                    System.Diagnostics.Debug.WriteLine( "Guid: {0}", guid );
+                    return RedirectToAction( "Index", "Home" );
                 }
-                ModelState.AddModelError("", ErrorCodeToString(MembershipCreateStatus.UserRejected));
+                ModelState.AddModelError( "", ErrorCodeToString( MembershipCreateStatus.UserRejected ) );
 
                 // If we got this far, something failed, redisplay form
-                return View(model);
+                return View( model );
             }
 
-            
-            return View(model);
+            return View( model );
         }
 
-        public ActionResult Activation(string id)
+        public ActionResult Activation( string id )
         {
-            Guid guid = new Guid(id);
-            Activation activation = Repo.GetById(guid);
+            Guid guid = new Guid( id );
+            Activation activation = Repo.GetById( guid );
             if ( activation != null )
             {
                 if ( !activation.IsUsed )
@@ -180,14 +177,14 @@ namespace FollowMyTv.WebApp.Controllers
                     bool result = userRepo.ActivateUser( activation.Username );
                     if ( result )
                     {
-                        return RedirectToAction("LogOn");
+                        return RedirectToAction( "LogOn" );
                     }
                 }
             }
-            
-            return View("Error");
-        }        
-        
+
+            return View( "Error" );
+        }
+
         //
         // GET: /Account/ChangePassword
         [Authorize]
@@ -201,20 +198,20 @@ namespace FollowMyTv.WebApp.Controllers
 
         [Authorize]
         [HttpPost]
-        public ActionResult ChangePassword(ChangePasswordModel model)
+        public ActionResult ChangePassword( ChangePasswordModel model )
         {
-            if (ModelState.IsValid)
+            if ( ModelState.IsValid )
             {
-                if ( userRepo.ChangePassword(User.Identity.Name, model.NewPassword) )
+                if ( userRepo.ChangePassword( User.Identity.Name, model.NewPassword ) )
                 {
-                    return RedirectToAction("ChangePasswordSuccess");
+                    return RedirectToAction( "ChangePasswordSuccess" );
                 }
 
-                ModelState.AddModelError("", "The current password is incorrect or the new password is invalid.");
+                ModelState.AddModelError( "", "The current password is incorrect or the new password is invalid." );
             }
 
             // If we got this far, something failed, redisplay form
-            return View(model);
+            return View( model );
         }
 
         //
@@ -226,30 +223,30 @@ namespace FollowMyTv.WebApp.Controllers
         }
 
         [Authorize]
-        public ActionResult Edit(string id)
+        public ActionResult Edit( string id )
         {
-            if( id == null )
+            if ( id == null )
             {
-                
             }
-            MembershipUser user = Membership.GetUser(id);
-            string[] roles = Roles.GetRolesForUser(id);
-            EditModel model = new EditModel {Email = user.Email, Role = roles[0], UserName = user.UserName};
+            MembershipUser user = Membership.GetUser( id );
+            string[] roles = Roles.GetRolesForUser( id );
+            EditModel model = new EditModel { Email = user.Email, Role = roles[0], UserName = user.UserName };
 
             return View();
         }
 
-        internal MailMessage GetRegisterMailMessage(string username, string email)
+        internal MailMessage GetRegisterMailMessage( string username, string email )
         {
             return null;
         }
 
         #region Status Codes
-        private static string ErrorCodeToString(MembershipCreateStatus createStatus)
+
+        private static string ErrorCodeToString( MembershipCreateStatus createStatus )
         {
             // See http://go.microsoft.com/fwlink/?LinkID=177550 for
             // a full list of status codes.
-            switch (createStatus)
+            switch ( createStatus )
             {
                 case MembershipCreateStatus.DuplicateUserName:
                     return "User name already exists. Please enter a different user name.";
@@ -282,6 +279,7 @@ namespace FollowMyTv.WebApp.Controllers
                     return "An unknown error occurred. Please verify your entry and try again. If the problem persists, please contact your system administrator.";
             }
         }
-        #endregion
+
+        #endregion Status Codes
     }
 }

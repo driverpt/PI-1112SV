@@ -1,0 +1,53 @@
+﻿@model IEnumerable<FollowMyTv.DomainLayer.Season>
+@{
+    ViewBag.Title = "Seasons";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>@ViewBag.ShowTitle Seasons</h2>
+<p>
+    @Html.ActionLink( "Create New", "Create" )
+</p>
+<table>
+    <tr>
+        <th>
+            Number
+        </th>
+        <th>
+            Name
+        </th>
+        <th>
+            Debut
+        </th>
+        <th>
+            Finale
+        </th>
+        <th>
+        </th>
+    </tr>
+    @foreach ( var item in Model )
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor( modelItem => item.Number )
+            </td>
+            <td>
+                @Html.DisplayFor( modelItem => item.Name )
+            </td>
+            <td>
+                @Html.DisplayFor( modelItem => item.Debut )
+            </td>
+            <td>
+                @Html.DisplayFor( modelItem => item.Finale )
+            </td>
+            <td>
+                @Html.ActionLink( "Edit", "Edit", new { show = ViewBag.ShowTitle, season = item.Number } )
+                |
+                @Html.ActionLink( "Details", "Details", new { show = ViewBag.ShowTitle, season = item.Number } )
+                |
+                @Html.ActionLink( "Delete", "Delete", new { show = ViewBag.ShowTitle, season = item.Number } )
+                |
+                @Html.ActionLink( "Episodes", "List", new { show = ViewBag.ShowTitle, season = item.Number } )
+            </td>
+        </tr>
+    }
+</table>

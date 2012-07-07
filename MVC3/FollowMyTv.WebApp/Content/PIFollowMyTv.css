@@ -1,0 +1,30 @@
+﻿/* FollowMyTv Application Specific
+----------------------------------------------------------*/
+
+#paging_content #paging_tab
+{
+    width: 100%; /*text-align: center;*/
+    text-align: center;
+}
+
+#paging_content .show_info .show_avatar
+{
+    float: left;
+    overflow: hidden;
+}
+
+#paging_content .show_info .show_name
+{
+    margin-left: 130px;
+}
+
+#paging_content .show_info .show_actions
+{
+    margin-left: 130px;
+}
+
+#paging_content .show_info .show_avatar img
+{
+    width: 120px;
+    height: 80px;
+}

@@ -1,0 +1,57 @@
+﻿@model IEnumerable<FollowMyTv.DomainLayer.Episode>
+@{
+    ViewBag.Title = "Episodes";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>@ViewBag.ShowTitle Season @ViewBag.SeasonNumber Episodes</h2>
+<p>
+    @Html.ActionLink( "Create New", "Create", new { show = ViewBag.ShowTitle, season = ViewBag.SeasonNumber } )
+</p>
+<table>
+    <tr>
+        <th>
+            Number
+        </th>
+        <th>
+            Title
+        </th>
+        <th>
+            Duration
+        </th>
+        <th>
+            Synopsis
+        </th>
+        <th>
+            Score
+        </th>
+        <th>
+        </th>
+    </tr>
+    @foreach ( var item in Model )
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor( modelItem => item.Number )
+            </td>
+            <td>
+                @Html.DisplayFor( modelItem => item.Title )
+            </td>
+            <td>
+                @Html.DisplayFor( modelItem => item.Duration )
+            </td>
+            <td>
+                @Html.DisplayFor( modelItem => item.Synopsis )
+            </td>
+            <td>
+                @Html.DisplayFor( modelItem => item.Score )
+            </td>
+            <td>
+                @Html.ActionLink( "Edit", "Edit", new { show = ViewBag.ShowTitle, season = ViewBag.SeasonNumber, episode = item.Number } )
+                |
+                @Html.ActionLink( "Details", "Details", new { show = ViewBag.ShowTitle, season = ViewBag.SeasonNumber, episode = item.Number } )
+                |
+                @Html.ActionLink( "Delete", "Delete", new { show = ViewBag.ShowTitle, season = ViewBag.SeasonNumber, episode = item.Number } )
+            </td>
+        </tr>
+    }
+</table>
