@@ -1,10 +1,7 @@
 using System.Security.Principal;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.Mvc.Html;
-using System.Web.Routing;
 using FollowMyTv.DomainLayer;
-using FollowMyTv.WebApp.Controllers;
 using FollowMyTv.WebApp.Models;
 
 namespace FollowMyTv.WebApp
@@ -48,23 +45,6 @@ namespace FollowMyTv.WebApp
         public static Episode ToEpisodeDomainEntity( this EpisodeModel model )
         {
             return new Episode { Title = model.Name, Number = model.Number, Synopsis = model.Synopsis, Score = model.Score, Duration = model.Duration };
-        }
-    }
-
-    public class NotFoundResultFilter : IResultFilter, IExceptionFilter
-    {
-        public void OnResultExecuting( ResultExecutingContext filterContext )
-        { }
-
-        public void OnResultExecuted( ResultExecutedContext filterContext )
-        {
-            var errorsController = new ErrorsController();
-            filterContext.Controller = errorsController;
-        }
-
-        public void OnException( ExceptionContext filterContext )
-        {
-            HttpException exception = filterContext.Exception as HttpException;
         }
     }
 }

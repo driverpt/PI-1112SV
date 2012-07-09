@@ -7,6 +7,7 @@ using FollowMyTv.DataAccessLayer;
 using FollowMyTv.DomainLayer;
 using FollowMyTv.DomainLayer.Repository;
 using FollowMyTv.DomainLayer.Service;
+using FollowMyTv.WebApp.Filters;
 using Microsoft.Practices.Unity;
 using Unity.Mvc3;
 
@@ -20,6 +21,8 @@ namespace FollowMyTv.WebApp
         public static void RegisterGlobalFilters( GlobalFilterCollection filters )
         {
             filters.Add( new HandleErrorAttribute() );
+            // This probably can be a trouble, but we'll see if its worth changing this to a HttpModule
+            filters.Add( new HttpStatusCodeResultFilter() );
         }
 
         public static void RegisterRoutes( RouteCollection routes )
