@@ -86,6 +86,7 @@
     <Compile Include="Controllers\ProposalsController.cs" />
     <Compile Include="Controllers\ShowsController.cs" />
     <Compile Include="ExtensionMethods.cs" />
+    <Compile Include="Filters\HttpStatusCodeResultFilter.cs" />
     <Compile Include="FollowMyTvAuthenticationModule.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
