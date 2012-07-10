@@ -1,14 +1,12 @@
-﻿<div id="paging_tab">
-    @if ( ViewBag.PageNumber != 1 )
-    {
-        @Html.ActionLink( "|<", "Page" )
-        @Html.ActionLink( "<", "Page", new { pageNumber = ViewBag.PageNumber - 1 } )
-    }
-    Page @ViewBag.PageNumber of @ViewBag.TotalPages
-    @if ( ViewBag.PageNumber < @ViewBag.TotalPages )
-    {
-        @Html.ActionLink( ">", "Page", new { pageNumber = ViewBag.PageNumber + 1 } )
-        <text>&nbsp;</text>
-        @Html.ActionLink( ">|", "Page", new { pageNumber = ViewBag.TotalPages } )
-    }
-</div>
+﻿@if ( ViewBag.PageNumber != 1 )
+{
+    @Html.ActionLink( "|<", "Page" )
+    @Html.ActionLink( "<", "Page", new { pageNumber = ViewBag.PageNumber - 1 } )
+}
+Page @ViewBag.PageNumber of @ViewBag.TotalPages
+@if ( ViewBag.PageNumber < @ViewBag.TotalPages )
+{
+    @Html.ActionLink( ">", "Page", new { pageNumber = ViewBag.PageNumber + 1 } )
+    <text>&nbsp;</text>
+    @Html.ActionLink( ">|", "Page", new { pageNumber = ViewBag.TotalPages } )
+}

@@ -52,7 +52,16 @@ namespace FollowMyTv.WebApp.Controllers
 
             if ( Request.IsAjaxRequest() )
             {
-                return PartialView( "_IndexPaged", shows );
+                return Json( new
+                {
+                    Content = this.RenderPartialViewToString( "_IndexPaged", shows )
+                ,
+                    TotalPages = totalPages
+                ,
+                    CurrentPage = pageNumber
+                ,
+                    PagingTabContent = this.RenderPartialViewToString( "_PagingActions" )
+                }, JsonRequestBehavior.AllowGet );
             }
 
             return View( shows );
@@ -63,26 +72,11 @@ namespace FollowMyTv.WebApp.Controllers
         public ActionResult Details( string show, int? season, int? episode )
         {
             Show showObj = Service.GetShowByName( show );
-            if ( show != null )
+            if ( showObj == null )
             {
-                ViewBag.ShowTitle = showObj.Name;
-                if ( season.HasValue )
-                {
-                    Season seasonObj = Service.GetSeason( show, season.Value );
-                    ViewBag.SeasonNumber = seasonObj.Number;
-                    if ( episode.HasValue )
-                    {
-                        Episode episodeObj = Service.GetEpisodeByNumberShowAndSeason( show, seasonObj.Number,
-                                                                                     episode.Value );
-                        ViewBag.EpisodeNumber = episodeObj.Number;
-                        return View( "DetailsEpisode", episodeObj );
-                    }
-
-                    return View( "DetailsSeason", seasonObj );
-                }
-                return View( "Details", showObj );
+                return HttpNotFound();
             }
-            return new HttpNotFoundResult();
+            return View( showObj );
         }
 
         public ActionResult CreateSeason( string show )

@@ -17,4 +17,9 @@
     }
     @Html.ActionLink( "No Pages", "Index", new { noPages = true } )
 </p>
-@Html.Partial( "_IndexPaged", Model )
+<div id="paging_content">
+    @Html.Partial( "_IndexPaged", Model )
+</div>
+<div id="paging_tab">
+    @Html.Partial( "_PagingActions" )
+</div>
