@@ -3,13 +3,19 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@section IncludeScripts {
+    <script type="text/javascript" src="@Url.Content( "~/Scripts/InfiniteScroll.js" )"></script>
+}
 <h2>
     Index</h2>
 <p>
     @Html.ActionLink( "Create New", "Create" )
     @Html.ActionLink( "Paged Version", "Index" )
 </p>
-<table>
+<div id="paging_content">
+    @Html.Partial( "_IndexPaged", Model )
+</div>
+@*<table>
     <tr>
         <th>
             Name
@@ -37,4 +43,4 @@
             </td>
         </tr>
     }
-</table>
+</table>*@
