@@ -1,0 +1,11 @@
+﻿@model IEnumerable<FollowMyTv.DomainLayer.Show>
+<table class="autocomplete">
+    <tbody>
+    @foreach (var show in Model)
+    {
+        <tr class="autocomplete">
+            <td>@Html.ActionLink(show.Name, "Details", "Shows", new { id = show.Name}, null)</td>
+        </tr>
+    }
+    </tbody>
+</table>
