@@ -1,0 +1,21 @@
+﻿@model IEnumerable<FollowMyTv.DomainLayer.Show>
+           
+@{
+    ViewBag.Title = "Results";
+}
+
+<h2>Results</h2>
+
+@if (Model.Count() == 0)
+{
+    <p>No results were found for your query</p>
+}
+else
+{
+    <ul>
+    @foreach (var show in Model)
+    {
+        <li>@Html.ActionLink(show.Name, "Details", "Shows", new { id = show.Name }, null)</li>
+    }
+    </ul>
+}
