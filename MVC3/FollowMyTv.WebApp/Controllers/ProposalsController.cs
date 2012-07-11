@@ -75,22 +75,23 @@ namespace FollowMyTv.WebApp.Controllers
         // POST: /Proposals/Create
 
         [HttpPost]
-        public ActionResult Create( Proposal model )
+        public ActionResult Create( Proposal proposal )
         {
             try
             {
                 User user = UserRepo.GetByUsername( User.Identity.Name );
 
-                Show show = ShowService.GetShowByName( model.Show.Name );
+                Show show = ShowService.GetShowByName( proposal.Show.Name );
                 if ( show == null )
                 {
-                    show = new Show { Description = model.Show.Description, Name = model.Show.Name };
+                    show = new Show { Description = proposal.Show.Description, Name = proposal.Show.Name };
                 }
                 var createdProposal = ProposalService.AddProposal( show, user );
-                return RedirectToAction( "Edit", "Proposals", new { id = createdProposal.Id } );
+                return RedirectToAction( "Details", "Proposals", new { id = createdProposal.Id } );
             }
             catch
             {
+                return View(proposal);
                 return new HttpStatusCodeResult( ( int ) HttpStatusCode.InternalServerError );
             }
         }
