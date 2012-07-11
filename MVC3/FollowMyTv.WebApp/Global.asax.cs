@@ -29,6 +29,8 @@ namespace FollowMyTv.WebApp
         {
             routes.IgnoreRoute( "{resource}.axd/{*pathInfo}" );
 
+            //routes.MapRoute( "Edit", "{controller}/Edit/{id}", new { controller = "Proposals", action = "Edit" } );
+
             routes.MapRoute(
                             "Paging", // Route name
                             "{controller}/Page/{pageNumber}", // URL with parameters
@@ -48,9 +50,15 @@ namespace FollowMyTv.WebApp
             //);
 
             routes.MapRoute(
+                "Episodes", // Route name
+                "Episodes/{action}/{show}/{season}/{episode}", // URL with parameters
+                new { controller = "Episodes", action = "Index" } // Parameter defaults
+            );
+
+            routes.MapRoute(
                 "Shows", // Route name
-                "{controller}/{action}/{show}/{season}/{episode}", // URL with parameters
-                new { controller = "Shows", action = "Index", season = UrlParameter.Optional, episode = UrlParameter.Optional } // Parameter defaults
+                "Shows/{action}/{show}/{season}/", // URL with parameters
+                new { controller = "Shows", action = "Index", season = UrlParameter.Optional } // Parameter defaults
             );
 
             routes.MapRoute(

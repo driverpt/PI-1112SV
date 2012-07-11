@@ -12,9 +12,9 @@ namespace FollowMyTv.WebApp.Controllers
     [Authorize]
     public class ProposalsController : Controller
     {
-        private ProposalService ProposalService;
-        private ShowService ShowService;
-        private IUserRepository UserRepo;
+        private readonly ProposalService ProposalService;
+        private readonly ShowService ShowService;
+        private readonly IUserRepository UserRepo;
 
         [InjectionConstructor]
         public ProposalsController( [Dependency] ProposalService proposalService, [Dependency] IUserRepository userRepository, [Dependency] ShowService showService )
@@ -65,27 +65,29 @@ namespace FollowMyTv.WebApp.Controllers
             {
                 return HttpNotFound();
             }
+            User user = UserRepo.GetByUsername( User.Identity.Name );
+            Proposal proposal = new Proposal { Show = showObj, User = user };
 
-            return View( showObj );
+            return View( proposal );
         }
 
         //
         // POST: /Proposals/Create
 
         [HttpPost]
-        public ActionResult Create( ProposalModel model )
+        public ActionResult Create( Proposal model )
         {
             try
             {
                 User user = UserRepo.GetByUsername( User.Identity.Name );
 
-                Show show = ShowService.GetShowByName( model.Name );
+                Show show = ShowService.GetShowByName( model.Show.Name );
                 if ( show == null )
                 {
-                    show = new Show { Description = model.Description, Name = model.Name };
+                    show = new Show { Description = model.Show.Description, Name = model.Show.Name };
                 }
-                ProposalService.AddProposal( show, user );
-                return RedirectToAction( "Index" );
+                var createdProposal = ProposalService.AddProposal( show, user );
+                return RedirectToAction( "Edit", "Proposals", new { id = createdProposal.Id } );
             }
             catch
             {

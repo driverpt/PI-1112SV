@@ -1,4 +1,4 @@
-﻿@model FollowMyTv.DomainLayer.Show
+﻿@model FollowMyTv.DomainLayer.Proposal
 @{
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -6,18 +6,20 @@
 <h2>
     Details</h2>
 <fieldset>
-    <legend>Show</legend>
+    <legend>Proposal #@Model.Id</legend>
     <div class="display-label">
         Name</div>
     <div class="display-field">
-        @Html.DisplayFor( model => model.Name )
+        @Html.DisplayFor( model => model.Show.Name )
     </div>
     <div class="display-label">
         Description</div>
     <div class="display-field">
-        @Html.DisplayFor( model => model.Description )
+        @Html.DisplayFor( model => model.Show.Description )
     </div>
 </fieldset>
+<div id="seasonbox">
+</div>
 <p>
     @Html.ActionLink( "Edit", "Edit", new { id = Model.Id } ) |
     @Html.ActionLink( "Back to List", "Index" )

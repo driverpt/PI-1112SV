@@ -1,26 +1,62 @@
-﻿@model FollowMyTv.DomainLayer.Show
-
+﻿@using System.Globalization
+@model FollowMyTv.DomainLayer.Show
 @{
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h2>Details</h2>
-
+<script type="text/javascript">
+    $(function () {
+        var anchors = $('#seasons a');
+        anchors.bind('click', function (e) {
+            var anchor = $(this).attr('href');
+            e.preventDefault();
+            $.ajax({
+                url: $(this).attr('href'),
+                cache: false,
+                success: function (data) {
+                    var episodes = $('#episodesbox');
+                    episodes.html('');
+                    episodes.append('<ul>');
+                    for (var i = 0; i < data.length; ++i) {
+                        var oldHrefSplit = anchor.split('/');
+                        var newHref = oldHrefSplit[0] + "/" + oldHrefSplit[1] + "/Details/" + oldHrefSplit[3] + "/" + oldHrefSplit[4] + "/" + data[i].Number;
+                        episodes.append('<li><a href=\"' + newHref + '\">' + data[i].Title + '</a></li>');
+                    }
+                    episodes.append('</ul>');
+                }
+            });
+        });
+    })();
+</script>
+<h2>
+    Details</h2>
 <fieldset>
     <legend>Show</legend>
-
-    <div class="display-label">Name</div>
+    <div class="display-label">
+        Name</div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.Name)
+        @Html.DisplayFor( model => model.Name )
     </div>
-
-    <div class="display-label">Description</div>
+    <div class="display-label">
+        Description</div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.Description)
+        @Html.DisplayFor( model => model.Description )
     </div>
 </fieldset>
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id=Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
+    @Html.ActionLink( "Edit", "Edit", new { id = Model.Name } ) |
+    @Html.ActionLink( "Create Proposal", "Create", "Proposals", new { Show = Model.Name }, null )
+    |
+    @Html.ActionLink( "Back to List", "Index" )
 </p>
+<div id="seasons">
+    <ul>
+        @foreach ( var season in Model.Seasons )
+        {
+            <li>@Html.ActionLink( season.Number.ToString( CultureInfo.InvariantCulture ), "SeasonEpisodeList", "Episodes", new { show = Model.Name, season = season.Number }, null )
+            </li>
+        }
+    </ul>
+    <div id="episodesbox">
+    </div>
+</div>

@@ -49,6 +49,11 @@ namespace FollowMyTv.WebApp
             return new Episode { Title = model.Name, Number = model.Number, Synopsis = model.Synopsis, Score = model.Score, Duration = model.Duration };
         }
 
+        public static ShowModel ToShowModel( this Show showObj )
+        {
+            return new ShowModel { Name = showObj.Name, Description = showObj.Description };
+        }
+
         public static string RenderPartialViewToString( this Controller controller, string viewName, object model = null )
         {
             if ( string.IsNullOrEmpty( viewName ) )

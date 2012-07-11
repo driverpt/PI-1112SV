@@ -146,5 +146,23 @@ namespace FollowMyTv.WebApp.Controllers
                 return View();
             }
         }
+
+        [Authorize]
+        public ActionResult SeasonEpisodeList( string show, int? season )
+        {
+            Season seasonObj = Service.GetSeason( show, season.GetValueOrDefault() );
+
+            if ( seasonObj == null )
+            {
+                return HttpNotFound();
+            }
+
+            if ( Request.IsAjaxRequest() )
+            {
+                return Json( seasonObj.Episodes, JsonRequestBehavior.AllowGet );
+            }
+
+            return View( seasonObj );
+        }
     }
 }
